@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Auth
+
+  Created by Adam Cseke on 2022. 02. 18..
+  Copyright © 2022. levivig. All rights reserved.
+*/
+
+"HomeViewController.TitleLabel" = "Enter your phone number";
+"HomeViewController.DescriptionLabel" = "Use the phone number to register or login TechPAY";
+"HomeViewController.TextField.Registration" = " Enter your phone number";
+"HomeViewController.ButtonTitle" = "NEXT";
+"VerificationViewController.TitleLabel" = "Verification codes OTP";
+"VerificationViewController.DescriptionLabel" = "A verification codes has been sent to ";
+"VerificationViewController.CodeResend" = "Send Again OTP";
+"VerificationViewController.ChangePhoneNumber" = "Change Phone Number";
