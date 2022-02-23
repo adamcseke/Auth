@@ -40,6 +40,12 @@
 		370D9DCD27C4CEB600E22C87 /* CountryPickerWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D9DC827C4CEB600E22C87 /* CountryPickerWireframe.swift */; };
 		370D9DD027C4CF4500E22C87 /* CountriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D9DCF27C4CF4500E22C87 /* CountriesTableViewCell.swift */; };
 		370E569227C63AFC0023CF02 /* HomeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569127C63AFC0023CF02 /* HomeDelegate.swift */; };
+		370E569827C64E790023CF02 /* LoginInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569327C64E790023CF02 /* LoginInterfaces.swift */; };
+		370E569927C64E790023CF02 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569427C64E790023CF02 /* LoginPresenter.swift */; };
+		370E569A27C64E790023CF02 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569527C64E790023CF02 /* LoginViewController.swift */; };
+		370E569B27C64E790023CF02 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569627C64E790023CF02 /* LoginInteractor.swift */; };
+		370E569C27C64E790023CF02 /* LoginWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569727C64E790023CF02 /* LoginWireframe.swift */; };
+		370E569E27C666590023CF02 /* WrongPinCodeAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569D27C666590023CF02 /* WrongPinCodeAlertViewController.swift */; };
 		3742E98027C4E7CC003A110E /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3742E97F27C4E7CC003A110E /* Countries.swift */; };
 		3742E98227C5129A003A110E /* VerificationCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3742E98127C5129A003A110E /* VerificationCodeTextField.swift */; };
 		3786EC9627C38A7300250F0C /* VerificationInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786EC9127C38A7300250F0C /* VerificationInterfaces.swift */; };
@@ -101,6 +107,12 @@
 		370D9DC827C4CEB600E22C87 /* CountryPickerWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerWireframe.swift; sourceTree = "<group>"; };
 		370D9DCF27C4CF4500E22C87 /* CountriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesTableViewCell.swift; sourceTree = "<group>"; };
 		370E569127C63AFC0023CF02 /* HomeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDelegate.swift; sourceTree = "<group>"; };
+		370E569327C64E790023CF02 /* LoginInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInterfaces.swift; sourceTree = "<group>"; };
+		370E569427C64E790023CF02 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		370E569527C64E790023CF02 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		370E569627C64E790023CF02 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		370E569727C64E790023CF02 /* LoginWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWireframe.swift; sourceTree = "<group>"; };
+		370E569D27C666590023CF02 /* WrongPinCodeAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongPinCodeAlertViewController.swift; sourceTree = "<group>"; };
 		3742E97F27C4E7CC003A110E /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
 		3742E98127C5129A003A110E /* VerificationCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeTextField.swift; sourceTree = "<group>"; };
 		3786EC9127C38A7300250F0C /* VerificationInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationInterfaces.swift; sourceTree = "<group>"; };
@@ -262,6 +274,7 @@
 		1B0BFB4E23362FF90054E28A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				370E569F27C66E2E0023CF02 /* Login */,
 				370D9DC327C4CEA400E22C87 /* CountryPicker */,
 				3786EC9027C38A6200250F0C /* Verification */,
 				378BA62E27BFD14700DEED0E /* Home */,
@@ -335,6 +348,7 @@
 				378BA64A27BFDE8000DEED0E /* PhoneNumberTextField.swift */,
 				3742E98127C5129A003A110E /* VerificationCodeTextField.swift */,
 				37DF7C3827C522F800729C23 /* AttributedCustomButton.swift */,
+				370E569D27C666590023CF02 /* WrongPinCodeAlertViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,6 +371,18 @@
 				370D9DCF27C4CF4500E22C87 /* CountriesTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		370E569F27C66E2E0023CF02 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				370E569327C64E790023CF02 /* LoginInterfaces.swift */,
+				370E569427C64E790023CF02 /* LoginPresenter.swift */,
+				370E569527C64E790023CF02 /* LoginViewController.swift */,
+				370E569627C64E790023CF02 /* LoginInteractor.swift */,
+				370E569727C64E790023CF02 /* LoginWireframe.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		3786EC9027C38A6200250F0C /* Verification */ = {
@@ -582,6 +608,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370E569B27C64E790023CF02 /* LoginInteractor.swift in Sources */,
 				1B0BFB572336303F0054E28A /* TabbarViewController.swift in Sources */,
 				3742E98027C4E7CC003A110E /* Countries.swift in Sources */,
 				378BA63E27BFD8C000DEED0E /* Colors.swift in Sources */,
@@ -591,6 +618,7 @@
 				378BA64327BFDA5B00DEED0E /* StringExtensions.swift in Sources */,
 				370D9DCB27C4CEB600E22C87 /* CountryPickerViewController.swift in Sources */,
 				1B0BFAFC233628850054E28A /* AppDelegate.swift in Sources */,
+				370E569927C64E790023CF02 /* LoginPresenter.swift in Sources */,
 				378BA64027BFD95700DEED0E /* Button.swift in Sources */,
 				1B0BFB562336303F0054E28A /* TabbarPresenter.swift in Sources */,
 				1B0BFB4623362B740054E28A /* BaseViewController.swift in Sources */,
@@ -598,6 +626,7 @@
 				3786EC9827C38A7300250F0C /* VerificationViewController.swift in Sources */,
 				378BA63727BFD15800DEED0E /* HomeInteractor.swift in Sources */,
 				1BB2479523E6EE8000EBFD39 /* DataExtensions.swift in Sources */,
+				370E569E27C666590023CF02 /* WrongPinCodeAlertViewController.swift in Sources */,
 				1B0BFB30233629890054E28A /* Initializable.swift in Sources */,
 				1B0BFB4D23362F950054E28A /* LoggerInitializer.swift in Sources */,
 				1B0BFB582336303F0054E28A /* TabbarInterfaces.swift in Sources */,
@@ -605,11 +634,14 @@
 				3742E98227C5129A003A110E /* VerificationCodeTextField.swift in Sources */,
 				1B0BFB3C23362A000054E28A /* InteractorInterface.swift in Sources */,
 				3786EC9627C38A7300250F0C /* VerificationInterfaces.swift in Sources */,
+				370E569A27C64E790023CF02 /* LoginViewController.swift in Sources */,
+				370E569827C64E790023CF02 /* LoginInterfaces.swift in Sources */,
 				370D9DD027C4CF4500E22C87 /* CountriesTableViewCell.swift in Sources */,
 				378BA63627BFD15700DEED0E /* HomeViewController.swift in Sources */,
 				1B0BFB3A23362A000054E28A /* UIStoryboardExtension.swift in Sources */,
 				378BA63427BFD15700DEED0E /* HomeInterfaces.swift in Sources */,
 				378BA63527BFD15700DEED0E /* HomePresenter.swift in Sources */,
+				370E569C27C64E790023CF02 /* LoginWireframe.swift in Sources */,
 				370D9DCA27C4CEB600E22C87 /* CountryPickerPresenter.swift in Sources */,
 				1B0BFB4723362B740054E28A /* BaseTabbarProtocolController.swift in Sources */,
 				378BA63827BFD15800DEED0E /* HomeWireframe.swift in Sources */,

@@ -37,7 +37,6 @@ extension HomeWireframe: HomeWireframeInterface {
     
     func goToVerification(phoneNumber: String) {
         let verificationWireframe = VerificationWireframe(phoneNumber: phoneNumber)
-        
         navigationController?.pushWireframe(verificationWireframe)
     }
 }

@@ -14,4 +14,5 @@ struct Colors {
     static let blackLabel = UIColor(rgb: 0x2F3542)
     static let button = UIColor(rgb: 0x5352ED)
     static let downArrow = UIColor(rgb: 0x092058)
+    static let placeholder = UIColor(rgb: 0x747D8C)
 }

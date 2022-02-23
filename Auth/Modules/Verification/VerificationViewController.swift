@@ -23,6 +23,7 @@ final class VerificationViewController: UIViewController {
     private var secondsLabel: UILabel!
     private var attributeString = NSMutableAttributedString()
     private var changePhoneNumberButton: UIButton!
+    private var phoneNumber: String?
 
     // MARK: - Public properties -
     var presenter: VerificationPresenterInterface!
@@ -87,6 +88,7 @@ final class VerificationViewController: UIViewController {
         verificationCodeTextfield.textColor = .black
         verificationCodeTextfield.font = .systemFont(ofSize: 20, weight: .bold)
         verificationCodeTextfield.customDelegate = self
+        verificationCodeTextfield.delegate = self
         verificationCodeTextfield.addTarget(self, action: #selector(textFieldEdidtingDidChange(_ :)), for: UIControl.Event.editingChanged)
         
         let attributes: [NSAttributedString.Key: Any] = [
@@ -131,9 +133,12 @@ final class VerificationViewController: UIViewController {
         }
     }
     
-    @objc
-    private func nextButtonTapped() {
-        print("button tapped")
+    @objc private func nextButtonTapped() {
+        if verificationCodeTextfield.text == "123456" {
+            presenter.nextButtonTapped(phoneNumber: self.phoneNumber ?? "")
+        } else {
+            presenter.presentAlert()
+        }
     }
     
     private func configureSendAgainButton() {
@@ -174,6 +179,7 @@ final class VerificationViewController: UIViewController {
     
     private func configureChangePhoneNumberButton() {
         changePhoneNumberButton = UIButton()
+        changePhoneNumberButton.addTarget(self, action: #selector(changePhoneNumberButtonTapped), for: .touchUpInside)
         
         let attributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
@@ -197,12 +203,17 @@ final class VerificationViewController: UIViewController {
         }
     }
     
+    @objc private func changePhoneNumberButtonTapped() {
+        presenter.changePhoneNumberButtonTapped()
+    }
+    
 }
 
 // MARK: - Extensions -
 
 extension VerificationViewController: VerificationViewInterface {
     func pushPhoneNumber(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
         descriptionLabel.text = "VerificationViewController.DescriptionLabel".localized + "\(phoneNumber)"
     }
     
@@ -223,5 +234,15 @@ extension VerificationViewController: VerificationCodeTextfieldDelegate {
         let text = verificationCodeTextfield.text ?? ""
         presenter.inputChanged(text: text)
         print(text)
+    }
+}
+
+extension VerificationViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 6
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
     }
 }

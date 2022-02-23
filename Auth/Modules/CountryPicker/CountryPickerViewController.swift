@@ -79,7 +79,7 @@ extension CountryPickerViewController: UITableViewDataSource {
 extension CountryPickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCountry = "\(countryDictionary[indexPath.row].value)"
+        let selectedCountry = "+\(countryDictionary[indexPath.row].value)"
         presenter.didSelectCountry(country: selectedCountry)
         dismiss(animated: true)
     }

@@ -42,11 +42,24 @@ final class VerificationPresenter {
 // MARK: - Extensions -
 
 extension VerificationPresenter: VerificationPresenterInterface {
+    func changePhoneNumberButtonTapped() {
+        wireframe.backToHome()
+    }
+    
+    func nextButtonTapped(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
+        wireframe.goToLogin(phoneNumber: phoneNumber)
+    }
+    
+    func presentAlert() {
+        wireframe.presentAlert()
+    }
+    
     func inputChanged(text: String) {
         
         self.currentInput = text
         
-        view.setButton(enable: text.count > 5)
+        view.setButton(enable: text.count == 6)
         
     }
 }

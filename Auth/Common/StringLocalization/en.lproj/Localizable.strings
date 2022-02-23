@@ -14,3 +14,9 @@
 "VerificationViewController.DescriptionLabel" = "A verification codes has been sent to ";
 "VerificationViewController.CodeResend" = "Send Again OTP";
 "VerificationViewController.ChangePhoneNumber" = "Change Phone Number";
+"LoginViewController.Title" = "Welcome!";
+"LoginViewController.TextField.Placeholder" = "Enter your password";
+"LoginViewController.ForgotPassword" = "Forgot Password";
+"LoginViewController.BiometricButton.TouchID" = "Sign in with Fingerprint";
+"WrongPinCodeAlertViewController.Title" = "Oops";
+"WrongPinCodeAlertViewController.Description" = "Wrong pin code";

@@ -23,6 +23,8 @@ final class HomeViewController: BaseViewController {
     private var nextButton: Button!
     private var countryPickerButton: UIButton!
     private var downArrowImageView: UIImageView!
+    private var country: String?
+    private var countryCount: Int? = 0
     
     // MARK: - Public properties -
     var presenter: HomePresenterInterface!
@@ -157,7 +159,11 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: HomeViewInterface {
     func setCountry(country: String) {
+        phoneNumberTextField.text?.removeAll()
+        phoneNumberTextField.text?.append(country)
+        countryCount = country.count
         print(country)
+        print(country.count)
     }
     
     func setButton(enable: Bool) {
@@ -206,7 +212,17 @@ extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
-        textField.text = format(with: "+XX (XX) XXX-XXXX", phone: newString)
+
+        if self.countryCount == 0 {
+            textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
+        } else if self.countryCount == 2 {
+            textField.text = format(with: "+X (XX) XXX-XXXX", phone: newString)
+        } else if self.countryCount == 3 {
+            textField.text = format(with: "+XX (XX) XXX-XXXX", phone: newString)
+        } else if self.countryCount == 4 {
+            textField.text = format(with: "+XXX (XX) XXX-XXXX", phone: newString)
+        }
+        
         presenter.inputChanged(text: textField.text ?? "")
         
         return false

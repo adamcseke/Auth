@@ -11,9 +11,9 @@
 import UIKit
 
 final class VerificationWireframe: BaseWireframe {
-
+    
     // MARK: - Module setup -
-
+    
     init(phoneNumber: String) {
         let moduleViewController = VerificationViewController()
         super.init(viewController: moduleViewController)
@@ -22,10 +22,27 @@ final class VerificationWireframe: BaseWireframe {
         let presenter = VerificationPresenter(view: moduleViewController, interactor: interactor, wireframe: self, phoneNumber: phoneNumber)
         moduleViewController.presenter = presenter
     }
-
+    
 }
 
 // MARK: - Extensions -
 
 extension VerificationWireframe: VerificationWireframeInterface {
+    func backToHome() {
+        let homeWF = HomeWireframe(country: "")
+        navigationController?.setRootWireframe(homeWF, animated: true)
+    }
+    
+    func presentAlert() {
+        let alertVC = WrongPinCodeAlertViewController(title: "WrongPinCodeAlertViewController.Title".localized, message: "WrongPinCodeAlertViewController.Description".localized)
+        alertVC.modalTransitionStyle = .crossDissolve
+        alertVC.modalPresentationStyle = .overFullScreen
+        navigationController?.present(alertVC, animated: true)
+    }
+    
+    func goToLogin(phoneNumber: String) {
+        let loginWireframe = LoginWireframe(phoneNumber: phoneNumber)
+        navigationController?.pushWireframe(loginWireframe)
+    }
+    
 }

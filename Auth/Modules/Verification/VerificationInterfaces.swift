@@ -11,6 +11,9 @@
 import UIKit
 
 protocol VerificationWireframeInterface: WireframeInterface {
+    func goToLogin(phoneNumber: String)
+    func presentAlert()
+    func backToHome()
 }
 
 protocol VerificationViewInterface: ViewInterface {
@@ -19,7 +22,10 @@ protocol VerificationViewInterface: ViewInterface {
 }
 
 protocol VerificationPresenterInterface: PresenterInterface {
+    func nextButtonTapped(phoneNumber: String)
     func inputChanged(text: String)
+    func presentAlert()
+    func changePhoneNumberButtonTapped()
 }
 
 protocol VerificationInteractorInterface: InteractorInterface {
