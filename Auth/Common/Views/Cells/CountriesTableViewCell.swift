@@ -40,6 +40,9 @@ class CountriesTableViewCell: UITableViewCell {
         addSubview(countryLabel)
         addSubview(countryNumberLabel)
         
+        countryLabel.font = UIFont(name: "Hind-Bold", size: 15)
+        countryNumberLabel.font = UIFont(name: "Hind-Regular", size: 15)
+        
         countryFlagLabel.layer.cornerRadius = 12
         countryFlagLabel.layer.masksToBounds = true
 

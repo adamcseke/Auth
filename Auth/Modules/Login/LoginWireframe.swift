@@ -28,4 +28,16 @@ final class LoginWireframe: BaseWireframe {
 // MARK: - Extensions -
 
 extension LoginWireframe: LoginWireframeInterface {
+    func presentAlert(title: String, description: String, buttonText: String) {
+        let alertVC = AlertViewController(title: title, message: description, buttonLabel: buttonText)
+        alertVC.modalTransitionStyle = .crossDissolve
+        alertVC.modalPresentationStyle = .overFullScreen
+        navigationController?.present(alertVC, animated: true)
+    }
+    
+    func backToHome() {
+        let homeWF = HomeWireframe(country: "")
+        navigationController?.setRootWireframe(homeWF, animated: true)
+    }
+    
 }

@@ -48,19 +48,19 @@ class AttributedCustomButton: UIButton {
         
         attributesRegularEnabled = [
             NSAttributedString.Key.foregroundColor: Colors.button,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
             NSAttributedString.Key.paragraphStyle: style
         ]
         
         attributesSecondsBoldEnabled = [
             NSAttributedString.Key.foregroundColor: Colors.button,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Bold", size: 16),
             NSAttributedString.Key.paragraphStyle: style
         ]
         
         attributesRegularNotEnabled = [
             NSAttributedString.Key.foregroundColor: Colors.button.withAlphaComponent(0.5),
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
             NSAttributedString.Key.paragraphStyle: style
         ]
         

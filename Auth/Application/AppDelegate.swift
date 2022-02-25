@@ -27,7 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         initializers.forEach { $0.performInitialization() }
-        setRoot(wireframe: HomeWireframe(country: ""))
+//        UserDefaults.standard.setValue(false, forKey: "homeWireFrameShown")
+        if UserDefaults.standard.bool(forKey: "homeWireFrameShown") {
+            setRoot(wireframe: LoginWireframe(phoneNumber: ""))
+        } else {
+            setRoot(wireframe: HomeWireframe(country: ""))
+        }
         return true
     }
     

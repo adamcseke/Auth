@@ -35,9 +35,8 @@ class Button: UIControl {
     private func configureLabel() {
         buttonLabel = UILabel()
         buttonLabel.textColor = .white
-        buttonLabel.font = .systemFont(ofSize: 20)
+        buttonLabel.font = UIFont(name: "Hind-Bold", size: 20)
         buttonLabel.textAlignment = .center
-        buttonLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
         addSubview(buttonLabel)
         

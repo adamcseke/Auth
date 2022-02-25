@@ -19,6 +19,7 @@ final class LoginPresenter {
     private let wireframe: LoginWireframeInterface
     
     private var phoneNumber: String = ""
+    private var currentInput: String = ""
 
     // MARK: - Lifecycle -
 
@@ -42,4 +43,18 @@ final class LoginPresenter {
 // MARK: - Extensions -
 
 extension LoginPresenter: LoginPresenterInterface {
+    func presentAlert(title: String, description: String, buttonText: String) {
+        wireframe.presentAlert(title: title, description: description, buttonText: buttonText)
+    }
+    
+    func inputChanged(text: String) {
+        self.currentInput = text
+        
+        view.setButton(enable: text.count >= 1)
+        
+    }
+    
+    func signOutButtonTapped() {
+        wireframe.backToHome()
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  WrongPinCodeAlertViewController.swift
+//  AlertViewController.swift
 //  Auth
 //
 //  Created by Adam Cseke on 2022. 02. 23..
@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import KeychainAccess
 
-class WrongPinCodeAlertViewController: UIViewController {
+class AlertViewController: UIViewController {
     
     private var containerView: UIView!
+    private var imageView: UIImageView!
     private var titleLabel: UILabel!
     private var messageLabel: UILabel!
     private var actionButton: Button!
@@ -18,11 +20,13 @@ class WrongPinCodeAlertViewController: UIViewController {
     
     var alertTitle: String?
     var message: String?
+    var buttonText: String?
     
-    init(title: String, message: String) {
+    init(title: String, message: String, buttonLabel: String) {
         super.init(nibName: nil, bundle: nil)
         self.alertTitle = title
         self.message = message
+        self.buttonText = buttonLabel
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +49,7 @@ class WrongPinCodeAlertViewController: UIViewController {
     private func setup() {
         configureViewController()
         configureContainerView()
+        configureImageView()
         configureTitleLabel()
         configureMessageLabel()
         configureActionButton()
@@ -64,6 +69,21 @@ class WrongPinCodeAlertViewController: UIViewController {
         containerView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+        }
+    }
+    
+    private func configureImageView() {
+        imageView = UIImageView()
+        imageView.image = UIImage(systemName: "touchid")
+        imageView.image?.withTintColor(Colors.button)
+        imageView.layer.masksToBounds = true
+        containerView.addSubview(imageView)
+        
+        imageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(65)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(100)
         }
     }
     
@@ -77,7 +97,7 @@ class WrongPinCodeAlertViewController: UIViewController {
         containerView.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(24)
+            make.top.equalTo(imageView.snp.bottom).offset(29)
             make.leading.equalToSuperview().offset(28)
             make.centerX.equalToSuperview()
         }
@@ -109,19 +129,17 @@ class WrongPinCodeAlertViewController: UIViewController {
             make.top.equalTo(messageLabel.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(40)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-20)
-            make.width.equalTo(200)
+            make.bottom.equalToSuperview().offset(-64)
             make.height.equalTo(44)
         }
     }
     
     private func configureButtonLabel() {
         buttonLabel = UILabel()
-        
+        buttonLabel.text = buttonText
         buttonLabel.textColor = .white
-        buttonLabel.font = .systemFont(ofSize: 20)
+        buttonLabel.font = UIFont(name: "Hind-Bold", size: 20)
         buttonLabel.textAlignment = .center
-        buttonLabel.font = .systemFont(ofSize: 20, weight: .bold)
         actionButton.addSubview(buttonLabel)
         
         buttonLabel.snp.makeConstraints { make in

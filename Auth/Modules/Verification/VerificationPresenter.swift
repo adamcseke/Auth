@@ -51,10 +51,6 @@ extension VerificationPresenter: VerificationPresenterInterface {
         wireframe.goToLogin(phoneNumber: phoneNumber)
     }
     
-    func presentAlert() {
-        wireframe.presentAlert()
-    }
-    
     func inputChanged(text: String) {
         
         self.currentInput = text

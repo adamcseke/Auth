@@ -11,13 +11,19 @@
 import UIKit
 
 protocol LoginWireframeInterface: WireframeInterface {
+    func backToHome()
+    func presentAlert(title: String, description: String, buttonText: String)
 }
 
 protocol LoginViewInterface: ViewInterface {
     func pushPhoneNumber(phoneNumber: String)
+    func setButton(enable: Bool)
 }
 
 protocol LoginPresenterInterface: PresenterInterface {
+    func signOutButtonTapped()
+    func presentAlert(title: String, description: String, buttonText: String)
+    func inputChanged(text: String)
 }
 
 protocol LoginInteractorInterface: InteractorInterface {

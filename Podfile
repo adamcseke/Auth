@@ -17,6 +17,7 @@ target 'Auth' do
   pod 'SwiftLint'
   pod 'SwiftyBeaver'
   pod 'PhoneNumberKit'
+  pod 'KeychainAccess'
 
 end
 

@@ -46,7 +46,7 @@ class PhoneNumberTextField: UITextField {
         layer.cornerRadius = 11
         backgroundColor = .white
         textAlignment = .left
-        font = UIFont(name: "Hind", size: 12)
+        font = UIFont(name: "Hind-Medium", size: 16)
         addTarget(self, action: #selector(textfieldValueChanged), for: .editingChanged)
     }
     

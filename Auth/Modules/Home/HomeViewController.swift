@@ -14,12 +14,7 @@ final class HomeViewController: BaseViewController {
     
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
-    private var phoneNumberTextField: PhoneNumberTextField! {
-        didSet {
-//            guard let text = phoneNumberTextField.text else { return }
-//            phoneNumberTextField.text = text.applyPatternOnNumbers(pattern: "+## (##) ###-####", replacementCharacter: "#")
-        }
-    }
+    private var phoneNumberTextField: PhoneNumberTextField!
     private var nextButton: Button!
     private var countryPickerButton: UIButton!
     private var downArrowImageView: UIImageView!
@@ -45,6 +40,8 @@ final class HomeViewController: BaseViewController {
         configureDownArrowImageView()
         configureButton()
         self.hideKeyboardWhenTappedAround()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func configureViewController() {
@@ -56,7 +53,7 @@ final class HomeViewController: BaseViewController {
         titleLabel.text = "HomeViewController.TitleLabel".localized
         titleLabel.textColor = Colors.blackLabel
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        titleLabel.font = UIFont(name: "Hind-Bold", size: 24)
         view.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
@@ -72,7 +69,7 @@ final class HomeViewController: BaseViewController {
         descriptionLabel.textColor = Colors.blackLabel
         descriptionLabel.numberOfLines = 5
         descriptionLabel.textAlignment = .center
-        descriptionLabel.font = .systemFont(ofSize: 15, weight: .regular)
+        descriptionLabel.font = UIFont(name: "Hind-Regular", size: 15)
         view.addSubview(descriptionLabel)
         
         descriptionLabel.snp.makeConstraints { make in
@@ -135,8 +132,8 @@ final class HomeViewController: BaseViewController {
     private func configureButton() {
         nextButton = Button()
         nextButton.bind( buttonLabelText: "HomeViewController.ButtonTitle".localized,
-                    font: .systemFont(ofSize: 16, weight: .bold),
-                    textColor: .white)
+                         font: UIFont(name: "Hind-Bold", size: 16) ?? UIFont(),
+                         textColor: .white)
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         
         view.addSubview(nextButton)
@@ -176,6 +173,20 @@ extension HomeViewController: HomeViewInterface {
         }
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height * 0.30
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
 }
 
 extension HomeViewController: PhoneNumberTextfieldDelegate {
@@ -192,27 +203,27 @@ extension HomeViewController: UITextFieldDelegate {
         let numbers = phone.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
         var result = ""
         var index = numbers.startIndex // numbers iterator
-
+        
         // iterate over the mask characters until the iterator of numbers ends
         for ch in mask where index < numbers.endIndex {
             if ch == "X" {
                 // mask requires a number in this place, so take the next one
                 result.append(numbers[index])
-
+                
                 // move numbers iterator to the next index
                 index = numbers.index(after: index)
-
+                
             } else {
                 result.append(ch) // just append a mask character
             }
         }
         return result
     }
-
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
-
+        
         if self.countryCount == 0 {
             textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
         } else if self.countryCount == 2 {

@@ -33,13 +33,6 @@ extension VerificationWireframe: VerificationWireframeInterface {
         navigationController?.setRootWireframe(homeWF, animated: true)
     }
     
-    func presentAlert() {
-        let alertVC = WrongPinCodeAlertViewController(title: "WrongPinCodeAlertViewController.Title".localized, message: "WrongPinCodeAlertViewController.Description".localized)
-        alertVC.modalTransitionStyle = .crossDissolve
-        alertVC.modalPresentationStyle = .overFullScreen
-        navigationController?.present(alertVC, animated: true)
-    }
-    
     func goToLogin(phoneNumber: String) {
         let loginWireframe = LoginWireframe(phoneNumber: phoneNumber)
         navigationController?.pushWireframe(loginWireframe)

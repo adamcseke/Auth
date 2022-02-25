@@ -14,17 +14,19 @@ final class VerificationViewController: UIViewController {
     
     private var timer: Timer?
     private var seconds = 5
-
+    
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
     private var verificationCodeTextfield: VerificationCodeTextField!
     private var nextButton: Button!
+    private var stackView: UIStackView!
+    private var incorrectPasswordLabel: UILabel!
     private var sendAgainButton: AttributedCustomButton!
     private var secondsLabel: UILabel!
     private var attributeString = NSMutableAttributedString()
     private var changePhoneNumberButton: UIButton!
     private var phoneNumber: String?
-
+    
     // MARK: - Public properties -
     var presenter: VerificationPresenterInterface!
     
@@ -43,9 +45,14 @@ final class VerificationViewController: UIViewController {
         configureDescriptionLabel()
         configurePinCodeTextfield()
         configureNextButton()
+        configureStackView()
+        configureIncorrectPassword()
         configureSendAgainButton()
         configureChangePhoneNumberButton()
         self.hideKeyboardWhenTappedAround()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     private func configureViewController() {
@@ -57,7 +64,7 @@ final class VerificationViewController: UIViewController {
         titleLabel.text = "VerificationViewController.TitleLabel".localized
         titleLabel.textColor = Colors.blackLabel
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        titleLabel.font = UIFont(name: "Hind-Bold", size: 24)
         view.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
@@ -72,7 +79,6 @@ final class VerificationViewController: UIViewController {
         descriptionLabel.textColor = Colors.blackLabel
         descriptionLabel.numberOfLines = 5
         descriptionLabel.textAlignment = .center
-        descriptionLabel.font = .systemFont(ofSize: 15, weight: .regular)
         view.addSubview(descriptionLabel)
         
         descriptionLabel.snp.makeConstraints { make in
@@ -86,7 +92,7 @@ final class VerificationViewController: UIViewController {
         verificationCodeTextfield = VerificationCodeTextField()
         verificationCodeTextfield.keyboardType = .numberPad
         verificationCodeTextfield.textColor = .black
-        verificationCodeTextfield.font = .systemFont(ofSize: 20, weight: .bold)
+        verificationCodeTextfield.font = UIFont(name: "Hind-SemiBold", size: 20)
         verificationCodeTextfield.customDelegate = self
         verificationCodeTextfield.delegate = self
         verificationCodeTextfield.addTarget(self, action: #selector(textFieldEdidtingDidChange(_ :)), for: UIControl.Event.editingChanged)
@@ -95,13 +101,13 @@ final class VerificationViewController: UIViewController {
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
             NSAttributedString.Key.foregroundColor: Colors.blackLabel,
             NSAttributedString.Key.kern: CGFloat(5.0)
-          ]
+        ]
         let attributedPlaceholder = NSMutableAttributedString(string: "- - - - - -", attributes: attributes)
         attributedPlaceholder.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedPlaceholder.length))
         verificationCodeTextfield.attributedPlaceholder = attributedPlaceholder
         
         view.addSubview(verificationCodeTextfield)
-
+        
         verificationCodeTextfield.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
@@ -119,8 +125,8 @@ final class VerificationViewController: UIViewController {
     private func configureNextButton() {
         nextButton = Button()
         nextButton.bind( buttonLabelText: "HomeViewController.ButtonTitle".localized,
-                        font: .systemFont(ofSize: 16, weight: .bold),
-                        textColor: .white)
+                         font: UIFont(name: "Hind-Bold", size: 16) ?? UIFont(),
+                         textColor: .white)
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         
         view.addSubview(nextButton)
@@ -136,8 +142,43 @@ final class VerificationViewController: UIViewController {
     @objc private func nextButtonTapped() {
         if verificationCodeTextfield.text == "123456" {
             presenter.nextButtonTapped(phoneNumber: self.phoneNumber ?? "")
+            UserDefaults.standard.setValue(true, forKey: "homeWireFrameShown")
+            print("Code was right")
         } else {
-            presenter.presentAlert()
+            incorrectPasswordLabel.isHidden = false
+            print("Login was unsuccessful")
+        }
+    }
+    
+    private func configureStackView() {
+        stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.distribution = .equalCentering
+        
+        view.addSubview(stackView)
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(nextButton.snp.bottom).offset(15)
+            make.leading.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    private func configureIncorrectPassword() {
+        incorrectPasswordLabel = UILabel()
+        incorrectPasswordLabel.text = "LoginViewController.IncorrectPassword".localized
+        incorrectPasswordLabel.textAlignment = .center
+        incorrectPasswordLabel.textColor = Colors.incorrectPassword
+        incorrectPasswordLabel.numberOfLines = 2
+        incorrectPasswordLabel.isHidden = true
+        incorrectPasswordLabel.font = UIFont(name: "Hind-Regular", size: 16)
+        
+        stackView.addArrangedSubview(incorrectPasswordLabel)
+        
+        incorrectPasswordLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(32)
+            make.centerX.equalToSuperview()
         }
     }
     
@@ -145,13 +186,12 @@ final class VerificationViewController: UIViewController {
         sendAgainButton = AttributedCustomButton(title: "VerificationViewController.CodeResend".localized, subtitle: " (\(seconds)s)")
         sendAgainButton.backgroundColor = .clear
         sendAgainButton.isEnabled = false
-
+        
         timer = Timer.scheduledTimer(timeInterval: 1, target:self, selector:#selector(configureTimer), userInfo: nil, repeats: true)
         sendAgainButton.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
-        view.addSubview(sendAgainButton)
+        stackView.addArrangedSubview(sendAgainButton)
         
         sendAgainButton.snp.makeConstraints { make in
-            make.top.equalTo(nextButton.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(32)
             make.centerX.equalToSuperview()
         }
@@ -182,22 +222,21 @@ final class VerificationViewController: UIViewController {
         changePhoneNumberButton.addTarget(self, action: #selector(changePhoneNumberButtonTapped), for: .touchUpInside)
         
         let attributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
             NSAttributedString.Key.foregroundColor: UIColor.blue,
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-          ]
+        ]
         
         changePhoneNumberButton.tintColor = Colors.button
         let attributeString = NSMutableAttributedString(
-              string: "VerificationViewController.ChangePhoneNumber".localized,
-              attributes: attributes
-            )
+            string: "VerificationViewController.ChangePhoneNumber".localized,
+            attributes: attributes
+        )
         changePhoneNumberButton.backgroundColor = .clear
         changePhoneNumberButton.setAttributedTitle(attributeString, for: .normal)
-        view.addSubview(changePhoneNumberButton)
+        stackView.addArrangedSubview(changePhoneNumberButton)
         
         changePhoneNumberButton.snp.makeConstraints { make in
-            make.top.equalTo(sendAgainButton.snp.bottom).offset(13)
             make.leading.equalToSuperview().offset(32)
             make.centerX.equalToSuperview()
         }
@@ -207,6 +246,19 @@ final class VerificationViewController: UIViewController {
         presenter.changePhoneNumberButtonTapped()
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height * 0.30
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
 }
 
 // MARK: - Extensions -
@@ -214,7 +266,34 @@ final class VerificationViewController: UIViewController {
 extension VerificationViewController: VerificationViewInterface {
     func pushPhoneNumber(phoneNumber: String) {
         self.phoneNumber = phoneNumber
-        descriptionLabel.text = "VerificationViewController.DescriptionLabel".localized + "\(phoneNumber)"
+        
+        let user = User(phoneNumber: phoneNumber, password: "")
+
+        let encoder = JSONEncoder()
+        if let encodedUser = try? encoder.encode(user) {
+            UserDefaults.standard.set(encodedUser, forKey: "user")
+        }
+        
+        let numberAttributes = [
+            NSAttributedString.Key.font: UIFont(name: "Hind-Bold", size: 15),
+            NSAttributedString.Key.foregroundColor: Colors.blackLabel
+        ]
+        let attributedPhoneNumber = NSMutableAttributedString(string: "\(phoneNumber)",
+                                                              attributes: numberAttributes as [NSAttributedString.Key : Any])
+        
+        let attributes = [
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 15),
+            NSAttributedString.Key.foregroundColor: Colors.blackLabel
+        ]
+        let attributedString = NSMutableAttributedString(string: "VerificationViewController.DescriptionLabel".localized,
+                                                         attributes: attributes as [NSAttributedString.Key : Any])
+        
+        let combination = NSMutableAttributedString()
+        
+        combination.append(attributedString)
+        combination.append(attributedPhoneNumber)
+        
+        descriptionLabel.attributedText = combination
     }
     
     func setButton(enable: Bool) {
@@ -232,6 +311,7 @@ extension VerificationViewController: VerificationViewInterface {
 extension VerificationViewController: VerificationCodeTextfieldDelegate {
     func textfieldValueDidChange(text: String) {
         let text = verificationCodeTextfield.text ?? ""
+        incorrectPasswordLabel.isHidden = true
         presenter.inputChanged(text: text)
         print(text)
     }
@@ -242,7 +322,7 @@ extension VerificationViewController: UITextFieldDelegate {
         let maxLength = 6
         let currentString: NSString = (textField.text ?? "") as NSString
         let newString: NSString =
-            currentString.replacingCharacters(in: range, with: string) as NSString
+        currentString.replacingCharacters(in: range, with: string) as NSString
         return newString.length <= maxLength
     }
 }

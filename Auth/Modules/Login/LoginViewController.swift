@@ -9,18 +9,24 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 final class LoginViewController: UIViewController {
     
+    let localAuthenticationContext = LAContext()
+    
+    private var phoneNumber: String = ""
+    private var errorCode: Int?
+    
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
-    private var loginTextfield: UITextField!
+    private var loginTextfield: LoginTextField!
     private var loginButton: Button!
     private var biometricButton: UIButton!
+    private var stackView: UIStackView!
+    private var incorrectPasswordLabel: UILabel!
     private var forgotPasswordButton: UIButton!
-    private var secondsLabel: UILabel!
-    private var attributeString = NSMutableAttributedString()
-    private var changePhoneNumberButton: UIButton!
+    private var signOutButton: UIButton!
     
     // MARK: - Public properties -
     
@@ -40,9 +46,15 @@ final class LoginViewController: UIViewController {
         configureDescriptionLabel()
         configureLoginTextfield()
         configureLoginButton()
+        configureStackView()
         configureBiometricButton()
+        configureIncorrectPassword()
         configureForgotPasswordButton()
+        configureSignOutButton()
         self.hideKeyboardWhenTappedAround()
+        self.getData()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func configureViewController() {
@@ -54,11 +66,15 @@ final class LoginViewController: UIViewController {
         titleLabel.text = "LoginViewController.Title".localized
         titleLabel.textColor = Colors.blackLabel
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        titleLabel.font = UIFont(name: "Hind-Bold", size: 24)
         view.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().multipliedBy(0.53)
+            if UIDevice.Devices.iPhoneSE1stGen {
+                make.centerY.equalToSuperview().multipliedBy(0.35)
+            } else {
+                make.centerY.equalToSuperview().multipliedBy(0.5)
+            }
             make.leading.equalToSuperview()
             make.centerX.equalToSuperview()
         }
@@ -69,7 +85,7 @@ final class LoginViewController: UIViewController {
         descriptionLabel.textColor = Colors.blackLabel
         descriptionLabel.numberOfLines = 5
         descriptionLabel.textAlignment = .center
-        descriptionLabel.font = .systemFont(ofSize: 15, weight: .regular)
+        descriptionLabel.font = UIFont(name: "Hind-Regular", size: 15)
         view.addSubview(descriptionLabel)
         
         descriptionLabel.snp.makeConstraints { make in
@@ -80,19 +96,21 @@ final class LoginViewController: UIViewController {
     }
     
     private func configureLoginTextfield() {
-        loginTextfield = UITextField()
+        loginTextfield = LoginTextField()
         loginTextfield.textColor = .black
         loginTextfield.backgroundColor = .white
         loginTextfield.layer.cornerRadius = 11
+        loginTextfield.isSecureTextEntry = true
         loginTextfield.textAlignment = .center
-        loginTextfield.font = .systemFont(ofSize: 20, weight: .regular)
+        loginTextfield.customDelegate = self
+        loginTextfield.font = UIFont(name: "Hind-Regular", size: 20)
         loginTextfield.addTarget(self, action: #selector(textFieldEdidtingDidChange(_ :)), for: UIControl.Event.editingChanged)
         
-        let attributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+        let placeholderAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
             NSAttributedString.Key.foregroundColor: Colors.placeholder
         ]
-        let attributedPlaceholder = NSMutableAttributedString(string: "LoginViewController.TextField.Placeholder".localized, attributes: attributes)
+        let attributedPlaceholder = NSMutableAttributedString(string: "LoginViewController.TextField.Placeholder".localized, attributes: placeholderAttributes)
         loginTextfield.attributedPlaceholder = attributedPlaceholder
         
         view.addSubview(loginTextfield)
@@ -106,14 +124,19 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func textFieldEdidtingDidChange(_ textField :UITextField) {
-        let attributedString = NSMutableAttributedString(string: loginTextfield.text ?? "")
-        loginTextfield.attributedText = attributedString
-    }
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: UIFont(name: "Hind-Bold", size: 25),
+            NSAttributedString.Key.foregroundColor: Colors.button
+        ]
+            let attributedString = NSMutableAttributedString(string: loginTextfield.text ?? "", attributes: textAttributes)
+            attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedString.length))
+            loginTextfield.attributedText = attributedString
+        }
     
     private func configureLoginButton() {
         loginButton = Button()
-        loginButton.bind( buttonLabelText: "HomeViewController.ButtonTitle".localized,
-                          font: .systemFont(ofSize: 16, weight: .bold),
+        loginButton.bind( buttonLabelText: "LoginViewController.ButtonTitle".localized,
+                          font: UIFont(name: "Hind-Bold", size: 16) ?? UIFont(),
                           textColor: .white)
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
@@ -127,9 +150,15 @@ final class LoginViewController: UIViewController {
         }
     }
     
-    @objc
-    private func loginButtonTapped() {
-        print("button tapped")
+    @objc private func loginButtonTapped() {
+        self.getData()
+        if loginTextfield.text == "password" {
+            incorrectPasswordLabel.isHidden = true
+            print("Login was successful")
+        } else {
+            incorrectPasswordLabel.isHidden = false
+            print("Login was unsuccessful")
+        }
     }
     
     private func configureBiometricButton() {
@@ -138,27 +167,84 @@ final class LoginViewController: UIViewController {
         biometricButton.layer.cornerRadius = 11
         
         let attributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "touchid")?.withTintColor(.white)
-        let imageString = NSMutableAttributedString(attachment: attachment)
-        let textString = NSAttributedString(string: "LoginViewController.BiometricButton.TouchID".localized, attributes: attributes)
-        imageString.append(textString)
+        let touchID = NSTextAttachment()
+        touchID.image = UIImage(systemName: "touchid")?.withTintColor(.white)
+        let touchIdImageString = NSMutableAttributedString(attachment: touchID)
         
-        biometricButton.setAttributedTitle(imageString, for: .normal)
+        let faceID = NSTextAttachment()
+        faceID.image = UIImage(systemName: "faceid")?.withTintColor(.white)
+        let faceIdImageString = NSMutableAttributedString(attachment: faceID)
         
-        biometricButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        var textString = NSAttributedString()
         
-        view.addSubview(biometricButton)
+        localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        
+        let biometricType = localAuthenticationContext.biometryType == LABiometryType.faceID ? "Face ID" : "Touch ID"
+        print("Supported Biometric type is: \( biometricType )")
+        
+        if biometricType == "Touch ID" {
+            textString = NSAttributedString(string: "LoginViewController.BiometricButton.TouchID".localized, attributes: attributes)
+            touchIdImageString.append(textString)
+            biometricButton.setAttributedTitle(touchIdImageString, for: .normal)
+        } else if biometricType == "Face ID" {
+            textString = NSAttributedString(string: "LoginViewController.BiometricButton.FaceID".localized, attributes: attributes)
+            faceIdImageString.append(textString)
+            biometricButton.setAttributedTitle(faceIdImageString, for: .normal)
+        } else {
+            biometricButton.isHidden = true
+        }
+        
+        biometricButton.addTarget(self, action: #selector(biometricButtonTapped), for: .touchUpInside)
+        
+        stackView.addArrangedSubview(biometricButton)
         
         biometricButton.snp.makeConstraints { make in
-            make.top.equalTo(loginButton.snp.bottom).offset(16)
+            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
             make.leading.equalToSuperview().offset(15)
             make.height.equalTo(50)
+        }
+    }
+    
+    @objc private func biometricButtonTapped() {
+//        presenter.presentAlert()
+        authenticationWithTouchID()
+        print("button tapped")
+    }
+    
+    private func configureStackView() {
+        stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.distribution = .equalCentering
+        
+        view.addSubview(stackView)
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(loginButton.snp.bottom).offset(15)
+            make.leading.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    private func configureIncorrectPassword() {
+        incorrectPasswordLabel = UILabel()
+        incorrectPasswordLabel.text = "LoginViewController.IncorrectPassword".localized
+        incorrectPasswordLabel.textAlignment = .center
+        incorrectPasswordLabel.textColor = Colors.incorrectPassword
+        incorrectPasswordLabel.numberOfLines = 2
+        incorrectPasswordLabel.isHidden = true
+        incorrectPasswordLabel.font = UIFont(name: "Hind-Regular", size: 16)
+        
+        stackView.addArrangedSubview(incorrectPasswordLabel)
+        
+        incorrectPasswordLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(32)
+            make.centerX.equalToSuperview()
         }
     }
     
@@ -166,10 +252,10 @@ final class LoginViewController: UIViewController {
         forgotPasswordButton = UIButton()
         forgotPasswordButton.backgroundColor = .clear
         
-        view.addSubview(forgotPasswordButton)
+        stackView.addArrangedSubview(forgotPasswordButton)
         
         let attributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
             NSAttributedString.Key.foregroundColor: UIColor.blue,
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
         ]
@@ -180,9 +266,68 @@ final class LoginViewController: UIViewController {
         )
         forgotPasswordButton.setAttributedTitle(attributeString, for: .normal)
         forgotPasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(biometricButton.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(32)
             make.centerX.equalToSuperview()
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                if self.view.frame.origin.y == 0 {
+                    self.view.frame.origin.y -= keyboardSize.height * 0.30
+                }
+            }
+        }
+        
+        @objc func keyboardWillHide(notification: NSNotification) {
+            if self.view.frame.origin.y != 0 {
+                self.view.frame.origin.y = 0
+            }
+        }
+    
+    private func configureSignOutButton() {
+        signOutButton = UIButton()
+        signOutButton.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
+            NSAttributedString.Key.foregroundColor: UIColor.blue,
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+          ]
+        
+        signOutButton.tintColor = Colors.button
+        let attributeString = NSMutableAttributedString(
+              string: "LoginViewController.SignOut".localized,
+              attributes: attributes
+            )
+        signOutButton.backgroundColor = .clear
+        signOutButton.setAttributedTitle(attributeString, for: .normal)
+        stackView.addArrangedSubview(signOutButton)
+        
+        signOutButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(32)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    @objc private func signOutButtonTapped() {
+        presenter.signOutButtonTapped()
+    }
+    
+    private func getData() {
+        guard let data = KeychainManager.get(service: "auth.com", account: self.phoneNumber) else {
+            print("Failed to read pawwsord")
+            return
+        }
+        let password = String(decoding: data, as: UTF8.self)
+        print("Read password: \(password)")
+    }
+    
+    private func saveData() {
+        do {
+            try KeychainManager.save(service: "auth.com", account: self.phoneNumber, password: "password".data(using: .utf8) ?? Data())
+        } catch {
+            print(error)
         }
     }
     
@@ -191,9 +336,147 @@ final class LoginViewController: UIViewController {
 // MARK: - Extensions -
 
 extension LoginViewController: LoginViewInterface {
-    func pushPhoneNumber(phoneNumber: String) {
-        print(phoneNumber)
-        descriptionLabel.text = "designer.techcronus \n \(phoneNumber)"
+    func setButton(enable: Bool) {
+        if !enable {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
+        } else {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = Colors.button
+        }
     }
     
+    func pushPhoneNumber(phoneNumber: String) {
+        if let savedUserData = UserDefaults.standard.object(forKey: "user") as? Data {
+            let decoder = JSONDecoder()
+            if let savedUser = try? decoder.decode(User.self, from: savedUserData) {
+                self.phoneNumber = savedUser.phoneNumber
+                print("Saved user: \(self.phoneNumber)")
+            }
+        }
+        descriptionLabel.text = "designer.techcronus \n \(self.phoneNumber)"
+        self.saveData()
+    }
+    
+}
+
+extension LoginViewController: LoginTextFieldDelegate {
+    func textfieldValueDidChange(text: String) {
+        let text = loginTextfield.text ?? ""
+        presenter.inputChanged(text: text)
+        print(text)
+    }
+}
+
+extension LoginViewController {
+    
+    func authenticationWithTouchID() {
+        let localAuthenticationContext = LAContext()
+        localAuthenticationContext.localizedFallbackTitle = "Use Passcode"
+
+        var authError: NSError?
+        let reasonString = "To access the secure data"
+
+        if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+
+            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reasonString) { success, evaluateError in
+
+                if success {
+
+                    //TODO: User authenticated successfully, take appropriate action
+                    print("Login was successful")
+
+                } else {
+                    //TODO: User did not authenticate successfully, look at error and take appropriate action
+                    guard let error = evaluateError else {
+                        return
+                    }
+
+                    print(self.evaluateAuthenticationPolicyMessageForLA(errorCode: error._code))
+
+                    //TODO: If you have choosen the 'Fallback authentication mechanism selected' (LAError.userFallback). Handle gracefully
+
+                }
+            }
+        } else {
+
+            guard let error = authError else {
+                return
+            }
+            //TODO: Show appropriate alert if biometry/TouchID/FaceID is lockout or not enrolled
+            print(self.evaluateAuthenticationPolicyMessageForLA(errorCode: error.code))
+        }
+    }
+
+    func evaluatePolicyFailErrorMessageForLA(errorCode: Int) -> String {
+        var message = ""
+        if #available(iOS 11.0, macOS 10.13, *) {
+            switch errorCode {
+                case LAError.biometryNotAvailable.rawValue:
+                    message = "Authentication could not start because the device does not support biometric authentication."
+
+                case LAError.biometryLockout.rawValue:
+                    message = "Authentication could not continue because the user has been locked out of biometric authentication, due to failing authentication too many times."
+
+                case LAError.biometryNotEnrolled.rawValue:
+                    message = "Authentication could not start because the user has not enrolled in biometric authentication."
+                presenter.presentAlert(title: "LoginViewController.AlertViewController.Fingerprint.Title".localized, description: "LoginViewController.AlertViewController.Fingerprint.Description".localized, buttonText: "Ok")
+                default:
+                    message = "Did not find error code on LAError object"
+            }
+        } else {
+            switch errorCode {
+                case LAError.touchIDLockout.rawValue:
+                    message = "Too many failed attempts."
+
+                case LAError.touchIDNotAvailable.rawValue:
+                    message = "TouchID is not available on the device"
+
+                case LAError.touchIDNotEnrolled.rawValue:
+                    message = "TouchID is not enrolled on the device"
+
+                default:
+                    message = "Did not find error code on LAError object"
+            }
+        }
+
+        return message;
+    }
+
+    func evaluateAuthenticationPolicyMessageForLA(errorCode: Int) -> String {
+
+        var message = ""
+        self.errorCode = errorCode
+        switch errorCode {
+
+        case LAError.authenticationFailed.rawValue:
+            message = "The user failed to provide valid credentials"
+
+        case LAError.appCancel.rawValue:
+            message = "Authentication was cancelled by application"
+
+        case LAError.invalidContext.rawValue:
+            message = "The context is invalid"
+
+        case LAError.notInteractive.rawValue:
+            message = "Not interactive"
+
+        case LAError.passcodeNotSet.rawValue:
+            message = "Passcode is not set on the device"
+
+        case LAError.systemCancel.rawValue:
+            message = "Authentication was cancelled by the system"
+
+        case LAError.userCancel.rawValue:
+            message = "The user did cancel"
+
+        case LAError.userFallback.rawValue:
+            message = "The user chose to use the fallback"
+
+        default:
+            message = evaluatePolicyFailErrorMessageForLA(errorCode: errorCode)
+        }
+
+        return message
+    }
 }

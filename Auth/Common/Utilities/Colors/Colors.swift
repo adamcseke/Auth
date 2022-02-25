@@ -15,4 +15,5 @@ struct Colors {
     static let button = UIColor(rgb: 0x5352ED)
     static let downArrow = UIColor(rgb: 0x092058)
     static let placeholder = UIColor(rgb: 0x747D8C)
+    static let incorrectPassword = UIColor(rgb: 0xFE0000)
 }

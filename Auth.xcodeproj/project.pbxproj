@@ -45,7 +45,17 @@
 		370E569A27C64E790023CF02 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569527C64E790023CF02 /* LoginViewController.swift */; };
 		370E569B27C64E790023CF02 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569627C64E790023CF02 /* LoginInteractor.swift */; };
 		370E569C27C64E790023CF02 /* LoginWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569727C64E790023CF02 /* LoginWireframe.swift */; };
-		370E569E27C666590023CF02 /* WrongPinCodeAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569D27C666590023CF02 /* WrongPinCodeAlertViewController.swift */; };
+		370E569E27C666590023CF02 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569D27C666590023CF02 /* AlertViewController.swift */; };
+		3741A10B27C77B1D00C0DD6B /* Hind-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10627C77B1D00C0DD6B /* Hind-Bold.ttf */; };
+		3741A10C27C77B1D00C0DD6B /* Hind-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10727C77B1D00C0DD6B /* Hind-Regular.ttf */; };
+		3741A10D27C77B1D00C0DD6B /* Hind-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10827C77B1D00C0DD6B /* Hind-SemiBold.ttf */; };
+		3741A10E27C77B1D00C0DD6B /* Hind-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10927C77B1D00C0DD6B /* Hind-Medium.ttf */; };
+		3741A10F27C77B1D00C0DD6B /* Hind-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10A27C77B1D00C0DD6B /* Hind-Light.ttf */; };
+		3741A11227C7857F00C0DD6B /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11127C7857F00C0DD6B /* Devices.swift */; };
+		3741A11427C78AB200C0DD6B /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11327C78AB200C0DD6B /* LoginTextField.swift */; };
+		3741A11727C794DA00C0DD6B /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3741A11527C794A400C0DD6B /* LocalAuthentication.framework */; };
+		3741A11C27C7AD0600C0DD6B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11B27C7AD0600C0DD6B /* UserInfo.swift */; };
+		3741A11F27C7D22200C0DD6B /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11E27C7D22200C0DD6B /* KeychainManager.swift */; };
 		3742E98027C4E7CC003A110E /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3742E97F27C4E7CC003A110E /* Countries.swift */; };
 		3742E98227C5129A003A110E /* VerificationCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3742E98127C5129A003A110E /* VerificationCodeTextField.swift */; };
 		3786EC9627C38A7300250F0C /* VerificationInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3786EC9127C38A7300250F0C /* VerificationInterfaces.swift */; };
@@ -112,7 +122,17 @@
 		370E569527C64E790023CF02 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		370E569627C64E790023CF02 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		370E569727C64E790023CF02 /* LoginWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWireframe.swift; sourceTree = "<group>"; };
-		370E569D27C666590023CF02 /* WrongPinCodeAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongPinCodeAlertViewController.swift; sourceTree = "<group>"; };
+		370E569D27C666590023CF02 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		3741A10627C77B1D00C0DD6B /* Hind-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-Bold.ttf"; sourceTree = "<group>"; };
+		3741A10727C77B1D00C0DD6B /* Hind-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-Regular.ttf"; sourceTree = "<group>"; };
+		3741A10827C77B1D00C0DD6B /* Hind-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-SemiBold.ttf"; sourceTree = "<group>"; };
+		3741A10927C77B1D00C0DD6B /* Hind-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-Medium.ttf"; sourceTree = "<group>"; };
+		3741A10A27C77B1D00C0DD6B /* Hind-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-Light.ttf"; sourceTree = "<group>"; };
+		3741A11127C7857F00C0DD6B /* Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
+		3741A11327C78AB200C0DD6B /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
+		3741A11527C794A400C0DD6B /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		3741A11B27C7AD0600C0DD6B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		3741A11E27C7D22200C0DD6B /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		3742E97F27C4E7CC003A110E /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
 		3742E98127C5129A003A110E /* VerificationCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeTextField.swift; sourceTree = "<group>"; };
 		3786EC9127C38A7300250F0C /* VerificationInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationInterfaces.swift; sourceTree = "<group>"; };
@@ -149,6 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3741A11727C794DA00C0DD6B /* LocalAuthentication.framework in Frameworks */,
 				43059EDD3632E03E9C26E3F1 /* Pods_Auth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +320,7 @@
 		1B0BFB5E233632830054E28A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3741A11D27C7D21700C0DD6B /* KeychainManager */,
 				1B0BFB5F2336328D0054E28A /* RestClient */,
 			);
 			path = Services;
@@ -323,6 +345,7 @@
 		1BDD469E23AFFCAE0020AC54 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3741A10227C775A700C0DD6B /* UILabelExtension */,
 				37BF307627BFE1460059535C /* ViewController */,
 				378BA64127BFDA4400DEED0E /* String */,
 				378BA63927BFD84400DEED0E /* Color */,
@@ -336,6 +359,7 @@
 			children = (
 				1BB2479123E6ED0500EBFD39 /* APIError.swift */,
 				3742E97F27C4E7CC003A110E /* Countries.swift */,
+				3741A11B27C7AD0600C0DD6B /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -348,7 +372,7 @@
 				378BA64A27BFDE8000DEED0E /* PhoneNumberTextField.swift */,
 				3742E98127C5129A003A110E /* VerificationCodeTextField.swift */,
 				37DF7C3827C522F800729C23 /* AttributedCustomButton.swift */,
-				370E569D27C666590023CF02 /* WrongPinCodeAlertViewController.swift */,
+				370E569D27C666590023CF02 /* AlertViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -369,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				370D9DCF27C4CF4500E22C87 /* CountriesTableViewCell.swift */,
+				3741A11327C78AB200C0DD6B /* LoginTextField.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -383,6 +408,49 @@
 				370E569727C64E790023CF02 /* LoginWireframe.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		3741A10227C775A700C0DD6B /* UILabelExtension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UILabelExtension;
+			sourceTree = "<group>";
+		};
+		3741A10527C77B0000C0DD6B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3741A10627C77B1D00C0DD6B /* Hind-Bold.ttf */,
+				3741A10A27C77B1D00C0DD6B /* Hind-Light.ttf */,
+				3741A10927C77B1D00C0DD6B /* Hind-Medium.ttf */,
+				3741A10727C77B1D00C0DD6B /* Hind-Regular.ttf */,
+				3741A10827C77B1D00C0DD6B /* Hind-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		3741A11027C7857300C0DD6B /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				3741A11127C7857F00C0DD6B /* Devices.swift */,
+			);
+			path = Devices;
+			sourceTree = "<group>";
+		};
+		3741A11A27C7950900C0DD6B /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				378BA63D27BFD8C000DEED0E /* Colors.swift */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
+		3741A11D27C7D21700C0DD6B /* KeychainManager */ = {
+			isa = PBXGroup;
+			children = (
+				3741A11E27C7D22200C0DD6B /* KeychainManager.swift */,
+			);
+			path = KeychainManager;
 			sourceTree = "<group>";
 		};
 		3786EC9027C38A6200250F0C /* Verification */ = {
@@ -420,7 +488,9 @@
 		378BA63C27BFD8A200DEED0E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				378BA63D27BFD8C000DEED0E /* Colors.swift */,
+				3741A11A27C7950900C0DD6B /* Colors */,
+				3741A11027C7857300C0DD6B /* Devices */,
+				3741A10527C77B0000C0DD6B /* Fonts */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -452,6 +522,7 @@
 		BA60848800195AD7C50DED11 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3741A11527C794A400C0DD6B /* LocalAuthentication.framework */,
 				20BC19AFC57ED15C2391D931 /* Pods_TemplateTests.framework */,
 				AA1C71581E8FB7D1071CE22E /* Pods_TemplateUITests.framework */,
 				6B4E5C14F4E592CE52F69CA8 /* Pods_Auth.framework */,
@@ -535,10 +606,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3741A10C27C77B1D00C0DD6B /* Hind-Regular.ttf in Resources */,
 				1B0BFB5A2336303F0054E28A /* Tabbar.storyboard in Resources */,
 				378BA64727BFDAD600DEED0E /* Localizable.strings in Resources */,
 				1B0BFB08233628870054E28A /* LaunchScreen.storyboard in Resources */,
+				3741A10E27C77B1D00C0DD6B /* Hind-Medium.ttf in Resources */,
 				1B0BFB05233628870054E28A /* Assets.xcassets in Resources */,
+				3741A10B27C77B1D00C0DD6B /* Hind-Bold.ttf in Resources */,
+				3741A10D27C77B1D00C0DD6B /* Hind-SemiBold.ttf in Resources */,
+				3741A10F27C77B1D00C0DD6B /* Hind-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,14 +695,17 @@
 				370D9DCB27C4CEB600E22C87 /* CountryPickerViewController.swift in Sources */,
 				1B0BFAFC233628850054E28A /* AppDelegate.swift in Sources */,
 				370E569927C64E790023CF02 /* LoginPresenter.swift in Sources */,
+				3741A11227C7857F00C0DD6B /* Devices.swift in Sources */,
+				3741A11F27C7D22200C0DD6B /* KeychainManager.swift in Sources */,
 				378BA64027BFD95700DEED0E /* Button.swift in Sources */,
 				1B0BFB562336303F0054E28A /* TabbarPresenter.swift in Sources */,
 				1B0BFB4623362B740054E28A /* BaseViewController.swift in Sources */,
 				3786EC9727C38A7300250F0C /* VerificationPresenter.swift in Sources */,
 				3786EC9827C38A7300250F0C /* VerificationViewController.swift in Sources */,
 				378BA63727BFD15800DEED0E /* HomeInteractor.swift in Sources */,
+				3741A11427C78AB200C0DD6B /* LoginTextField.swift in Sources */,
 				1BB2479523E6EE8000EBFD39 /* DataExtensions.swift in Sources */,
-				370E569E27C666590023CF02 /* WrongPinCodeAlertViewController.swift in Sources */,
+				370E569E27C666590023CF02 /* AlertViewController.swift in Sources */,
 				1B0BFB30233629890054E28A /* Initializable.swift in Sources */,
 				1B0BFB4D23362F950054E28A /* LoggerInitializer.swift in Sources */,
 				1B0BFB582336303F0054E28A /* TabbarInterfaces.swift in Sources */,
@@ -642,6 +721,7 @@
 				378BA63427BFD15700DEED0E /* HomeInterfaces.swift in Sources */,
 				378BA63527BFD15700DEED0E /* HomePresenter.swift in Sources */,
 				370E569C27C64E790023CF02 /* LoginWireframe.swift in Sources */,
+				3741A11C27C7AD0600C0DD6B /* UserInfo.swift in Sources */,
 				370D9DCA27C4CEB600E22C87 /* CountryPickerPresenter.swift in Sources */,
 				1B0BFB4723362B740054E28A /* BaseTabbarProtocolController.swift in Sources */,
 				378BA63827BFD15800DEED0E /* HomeWireframe.swift in Sources */,
@@ -817,10 +897,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.levivig.Template;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levivig.Auth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -837,10 +917,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.levivig.Template;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levivig.Auth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

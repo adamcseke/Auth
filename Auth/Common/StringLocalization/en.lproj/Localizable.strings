@@ -17,6 +17,13 @@
 "LoginViewController.Title" = "Welcome!";
 "LoginViewController.TextField.Placeholder" = "Enter your password";
 "LoginViewController.ForgotPassword" = "Forgot Password";
-"LoginViewController.BiometricButton.TouchID" = "Sign in with Fingerprint";
-"WrongPinCodeAlertViewController.Title" = "Oops";
-"WrongPinCodeAlertViewController.Description" = "Wrong pin code";
+"LoginViewController.BiometricButton.TouchID" = " Sign in with Fingerprint";
+"LoginViewController.BiometricButton.FaceID" = " Sign in with Face ID";
+"AlertViewController.Fingerprint.Title" = "Fingerprint for TechPAY";
+"AlertViewController.Fingerprint.Description" = "Use fingerprint to unlock TechPAY";
+"AlertViewController.Button.Title" = "CANCEL";
+"LoginViewController.SignOut" = "Sign out";
+"LoginViewController.IncorrectPassword" = "*Incorrect password, please type again";
+"LoginViewController.ButtonTitle" = "LOGIN";
+"LoginViewController.AlertViewController.Fingerprint.Title" = "Oops";
+"LoginViewController.AlertViewController.Fingerprint.Description" = "Authentication could not start because the user has not enrolled in biometric authentication.";
