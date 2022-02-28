@@ -29,8 +29,7 @@ final class VerificationWireframe: BaseWireframe {
 
 extension VerificationWireframe: VerificationWireframeInterface {
     func backToHome() {
-        let homeWF = HomeWireframe(country: "")
-        navigationController?.setRootWireframe(homeWF, animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func goToLogin(phoneNumber: String) {

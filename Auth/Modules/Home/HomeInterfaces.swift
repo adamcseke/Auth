@@ -12,16 +12,18 @@ import UIKit
 
 protocol HomeWireframeInterface: WireframeInterface {
     func goToVerification(phoneNumber: String)
+    func goToLogin()
     func goToCountryPicker(delegate: HomeDelegate?)
 }
 
 protocol HomeViewInterface: ViewInterface {
     func setButton(enable: Bool)
-    func setCountry(country: String)
+    func setCountry(country: String, flag: String)
 }
 
 protocol HomePresenterInterface: PresenterInterface {
-    func nextButtonTapped()
+    func goToVerification()
+    func goToLogin()
     func countryPickerButtonTapped()
     func inputChanged(text: String)
 }

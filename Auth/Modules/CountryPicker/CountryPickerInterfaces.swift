@@ -11,14 +11,14 @@
 import UIKit
 
 protocol CountryPickerWireframeInterface: WireframeInterface {
-    func dismissCountryPicker(country: String)
+    func dismissCountryPicker(country: String, flag: String)
 }
 
 protocol CountryPickerViewInterface: ViewInterface {
 }
 
 protocol CountryPickerPresenterInterface: PresenterInterface {
-    func didSelectCountry(country: String)
+    func didSelectCountry(country: String, flag: String)
 }
 
 protocol CountryPickerInteractorInterface: InteractorInterface {

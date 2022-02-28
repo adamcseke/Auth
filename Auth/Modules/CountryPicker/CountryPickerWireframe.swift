@@ -32,7 +32,7 @@ final class CountryPickerWireframe: BaseWireframe {
 // MARK: - Extensions -
 
 extension CountryPickerWireframe: CountryPickerWireframeInterface {
-    func dismissCountryPicker(country: String) {
-        homeDelegate?.countrySelected(country: country)
+    func dismissCountryPicker(country: String, flag: String) {
+        homeDelegate?.countrySelected(country: country, flag: flag)
     }
 }

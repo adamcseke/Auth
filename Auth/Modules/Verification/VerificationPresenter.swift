@@ -55,7 +55,7 @@ extension VerificationPresenter: VerificationPresenterInterface {
         
         self.currentInput = text
         
-        view.setButton(enable: text.count == 6)
+        view.setButton(enable: text.count > 1)
         
     }
 }

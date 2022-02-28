@@ -12,7 +12,7 @@ import UIKit
 
 protocol LoginWireframeInterface: WireframeInterface {
     func backToHome()
-    func presentAlert(title: String, description: String, buttonText: String)
+    func presentAlert(title: String, description: String, buttonText: String, alertImage: UIImage)
 }
 
 protocol LoginViewInterface: ViewInterface {
@@ -22,7 +22,7 @@ protocol LoginViewInterface: ViewInterface {
 
 protocol LoginPresenterInterface: PresenterInterface {
     func signOutButtonTapped()
-    func presentAlert(title: String, description: String, buttonText: String)
+    func presentAlert(title: String, description: String, buttonText: String, alertImage: UIImage)
     func inputChanged(text: String)
 }
 

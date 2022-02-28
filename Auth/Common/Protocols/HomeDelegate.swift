@@ -9,5 +9,5 @@
 import Foundation
 
 protocol HomeDelegate: AnyObject {
-    func countrySelected(country: String)
+    func countrySelected(country: String, flag: String)
 }

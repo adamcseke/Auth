@@ -21,12 +21,14 @@ class AlertViewController: UIViewController {
     var alertTitle: String?
     var message: String?
     var buttonText: String?
+    var alertImage: UIImage?
     
-    init(title: String, message: String, buttonLabel: String) {
+    init(title: String, message: String, buttonLabel: String, alertImage: UIImage) {
         super.init(nibName: nil, bundle: nil)
         self.alertTitle = title
         self.message = message
         self.buttonText = buttonLabel
+        self.alertImage = alertImage
     }
     
     required init?(coder: NSCoder) {
@@ -75,7 +77,8 @@ class AlertViewController: UIViewController {
     
     private func configureImageView() {
         imageView = UIImageView()
-        imageView.image = UIImage(systemName: "touchid")
+//        imageView.image = UIImage(systemName: "touchid")
+        imageView.image = alertImage
         imageView.image?.withTintColor(Colors.button)
         imageView.layer.masksToBounds = true
         containerView.addSubview(imageView)

@@ -13,8 +13,10 @@ import UIKit
 final class CountryPickerViewController: UIViewController {
 
     private var tableView: UITableView!
-    private let countryDictionary = CountryCodes.countries.reversed().map { $0 }
-    
+    private var countryDictionary = CountryCodes.countries.reversed().map { $0 }
+    private var titleLabel: UILabel!
+    private var flags: String?
+
     // MARK: - Public properties -
 
     var presenter: CountryPickerPresenterInterface!
@@ -28,11 +30,24 @@ final class CountryPickerViewController: UIViewController {
 
     private func setup() {
         configureViewController()
+        configureTitleLabel()
         configureTableView()
     }
     
     private func configureViewController() {
         view.backgroundColor = Colors.background
+    }
+    
+    private func configureTitleLabel() {
+        titleLabel = UILabel()
+        titleLabel.text = "Countries"
+        titleLabel.font = UIFont(name: "Hind-Bold", size: 20)
+        view.addSubview(titleLabel)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(15)
+        }
     }
     
     private func configureTableView() {
@@ -41,12 +56,15 @@ final class CountryPickerViewController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.rowHeight = 40
+        
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.leading.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
 }
@@ -64,15 +82,16 @@ extension CountryPickerViewController: UITableViewDataSource {
         
         let keys = countryDictionary[indexPath.row].key
         let values = countryDictionary[indexPath.row].value
-        let flags = CountryCodes.flag(country: keys)
-        let emoji = flags.decodeEmoji
+        flags = CountryCodes.flag(country: keys)
         
-        cell.set(countryFlag: emoji, countryText: "\(keys)", countryNumber: "+\(values)")
+        let emoji = flags?.decodeEmoji
+        
+        cell.set(countryFlag: emoji ?? "", countryText: "\(keys)", countryNumber: "+\(values)")
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CountryCodes.countries.count
+        return countryDictionary.count
     }
 }
 
@@ -80,7 +99,9 @@ extension CountryPickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCountry = "+\(countryDictionary[indexPath.row].value)"
-        presenter.didSelectCountry(country: selectedCountry)
+        let selectedCountryFlag = countryDictionary[indexPath.row].key
+        print(selectedCountryFlag)
+        presenter.didSelectCountry(country: selectedCountry, flag: selectedCountryFlag)
         dismiss(animated: true)
     }
 }

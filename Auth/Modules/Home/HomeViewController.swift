@@ -20,6 +20,10 @@ final class HomeViewController: BaseViewController {
     private var downArrowImageView: UIImageView!
     private var country: String?
     private var countryCount: Int? = 0
+    private var countryFlag: String = ""
+    
+    private var phoneNumber: String?
+    private var savedPhoneNumber: String?
     
     // MARK: - Public properties -
     var presenter: HomePresenterInterface!
@@ -94,15 +98,20 @@ final class HomeViewController: BaseViewController {
         phoneNumberTextField.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
-            make.leading.equalToSuperview().offset(15)
+            make.leading.equalToSuperview()
             make.height.equalTo(50)
         }
     }
     
     private func configureCountryPickerButton() {
         countryPickerButton = UIButton(type: .custom)
-        countryPickerButton.setImage(UIImage(named: "countryFlag"), for: .normal)
         countryPickerButton.addTarget(self, action: #selector(didTapCountryPickerButton), for: .touchUpInside)
+        
+//        let countryFlag = NSTextAttachment()
+//        countryFlag.image = UIImage(systemName: "countryFlag")
+//        let countryFlagImageString = NSMutableAttributedString(attachment: countryFlag)
+        
+        countryPickerButton.setTitle("📍", for: .normal)
         
         view.addSubview(countryPickerButton)
         
@@ -146,21 +155,32 @@ final class HomeViewController: BaseViewController {
         }
     }
     
-    @objc
-    private func nextButtonTapped() {
-        presenter.nextButtonTapped()
+    @objc private func nextButtonTapped() {
+        if let savedUserData = UserDefaults.standard.object(forKey: "user") as? Data {
+            let decoder = JSONDecoder()
+            if let savedUser = try? decoder.decode(User.self, from: savedUserData) {
+                self.savedPhoneNumber = savedUser.phoneNumber
+            }
+        }
+        if self.phoneNumber == self.savedPhoneNumber {
+            presenter.goToLogin()
+        } else {
+            presenter.goToVerification()
+        }
     }
 }
 
 // MARK: - Extensions -
 
 extension HomeViewController: HomeViewInterface {
-    func setCountry(country: String) {
+    func setCountry(country: String, flag: String) {
         phoneNumberTextField.text?.removeAll()
         phoneNumberTextField.text?.append(country)
         countryCount = country.count
+        let selectedCountryFlag = CountryCodes.flag(country: flag).decodeEmoji
+        countryPickerButton.setTitle(selectedCountryFlag, for: .normal)
         print(country)
-        print(country.count)
+        print(countryFlag.decodeEmoji)
     }
     
     func setButton(enable: Bool) {
@@ -192,8 +212,6 @@ extension HomeViewController: HomeViewInterface {
 extension HomeViewController: PhoneNumberTextfieldDelegate {
     
     func textfieldValueDidChange(text: String) {
-        let text = phoneNumberTextField.text ?? ""
-        print(text)
     }
 }
 
@@ -224,18 +242,23 @@ extension HomeViewController: UITextFieldDelegate {
         guard let text = textField.text else { return false }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
         
-        if self.countryCount == 0 {
-            textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
-        } else if self.countryCount == 2 {
-            textField.text = format(with: "+X (XX) XXX-XXXX", phone: newString)
-        } else if self.countryCount == 3 {
-            textField.text = format(with: "+XX (XX) XXX-XXXX", phone: newString)
-        } else if self.countryCount == 4 {
-            textField.text = format(with: "+XXX (XX) XXX-XXXX", phone: newString)
-        }
+//        if self.countryCount == 0 {
+//            textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
+//        } else if self.countryCount == 2 {
+//            textField.text = format(with: "+X (XX) XXX-XXXX", phone: newString)
+//        } else if self.countryCount == 3 {
+//            textField.text = format(with: "+XX (XX) XXX-XXXX", phone: newString)
+//        } else if self.countryCount == 4 {
+//            textField.text = format(with: "+XXX (XX) XXX-XXXX", phone: newString)
+//        }
+        
+        textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
         
         presenter.inputChanged(text: textField.text ?? "")
-        
+        let phoneNumberValidator = textField.text?.isPhoneNumber
+        if phoneNumberValidator == true {
+            self.phoneNumber = textField.text ?? ""
+        }
         return false
     }
 }

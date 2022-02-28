@@ -21,6 +21,7 @@ final class HomePresenter {
     private var country: String = ""
     private var phoneNumber: String = ""
     private var currentInput: String = ""
+    private var flag: String = ""
 
     // MARK: - Lifecycle -
 
@@ -28,22 +29,31 @@ final class HomePresenter {
         view: HomeViewInterface,
         interactor: HomeInteractorInterface,
         wireframe: HomeWireframeInterface,
-        country: String
+        country: String,
+        flag: String
     ) {
         self.view = view
         self.interactor = interactor
         self.wireframe = wireframe
         self.country = country
+        self.flag = flag
     }
     
     func viewDidLoad() {
-        view.setCountry(country: self.country)
+        view.setCountry(country: self.country, flag: self.flag)
     }
 }
 
 // MARK: - Extensions -
 
 extension HomePresenter: HomePresenterInterface {
+    func goToVerification() {
+        wireframe.goToVerification(phoneNumber: self.currentInput)
+    }
+    
+    func goToLogin() {
+        wireframe.goToLogin()
+    }
     
     func inputChanged(text: String) {
         
@@ -52,17 +62,13 @@ extension HomePresenter: HomePresenterInterface {
         view.setButton(enable: text.count > 8)
     }
     
-    func nextButtonTapped() {
-        wireframe.goToVerification(phoneNumber: self.currentInput)
-    }
-    
     func countryPickerButtonTapped() {
         wireframe.goToCountryPicker(delegate: self)
     }
 }
 
 extension HomePresenter: HomeDelegate {
-    func countrySelected(country: String) {
-        view.setCountry(country: country)
+    func countrySelected(country: String, flag: String) {
+        view.setCountry(country: country, flag: flag)
     }
 }

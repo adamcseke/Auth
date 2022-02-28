@@ -9,6 +9,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class LoginPresenter {
 
@@ -43,8 +44,8 @@ final class LoginPresenter {
 // MARK: - Extensions -
 
 extension LoginPresenter: LoginPresenterInterface {
-    func presentAlert(title: String, description: String, buttonText: String) {
-        wireframe.presentAlert(title: title, description: description, buttonText: buttonText)
+    func presentAlert(title: String, description: String, buttonText: String, alertImage: UIImage) {
+        wireframe.presentAlert(title: title, description: description, buttonText: buttonText, alertImage: alertImage)
     }
     
     func inputChanged(text: String) {

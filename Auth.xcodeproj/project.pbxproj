@@ -46,6 +46,7 @@
 		370E569B27C64E790023CF02 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569627C64E790023CF02 /* LoginInteractor.swift */; };
 		370E569C27C64E790023CF02 /* LoginWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569727C64E790023CF02 /* LoginWireframe.swift */; };
 		370E569E27C666590023CF02 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370E569D27C666590023CF02 /* AlertViewController.swift */; };
+		373207F727C91B71000FFFC6 /* SequenceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373207F627C91B71000FFFC6 /* SequenceExtensions.swift */; };
 		3741A10B27C77B1D00C0DD6B /* Hind-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10627C77B1D00C0DD6B /* Hind-Bold.ttf */; };
 		3741A10C27C77B1D00C0DD6B /* Hind-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10727C77B1D00C0DD6B /* Hind-Regular.ttf */; };
 		3741A10D27C77B1D00C0DD6B /* Hind-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3741A10827C77B1D00C0DD6B /* Hind-SemiBold.ttf */; };
@@ -112,7 +113,7 @@
 		289B179FEFFC70B4A0A408EA /* Pods-TemplateUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateUITests.release.xcconfig"; path = "Target Support Files/Pods-TemplateUITests/Pods-TemplateUITests.release.xcconfig"; sourceTree = "<group>"; };
 		370D9DC427C4CEB600E22C87 /* CountryPickerInterfaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerInterfaces.swift; sourceTree = "<group>"; };
 		370D9DC527C4CEB600E22C87 /* CountryPickerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerPresenter.swift; sourceTree = "<group>"; };
-		370D9DC627C4CEB600E22C87 /* CountryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerViewController.swift; sourceTree = "<group>"; };
+		370D9DC627C4CEB600E22C87 /* CountryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		370D9DC727C4CEB600E22C87 /* CountryPickerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerInteractor.swift; sourceTree = "<group>"; };
 		370D9DC827C4CEB600E22C87 /* CountryPickerWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerWireframe.swift; sourceTree = "<group>"; };
 		370D9DCF27C4CF4500E22C87 /* CountriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesTableViewCell.swift; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 		370E569627C64E790023CF02 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		370E569727C64E790023CF02 /* LoginWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWireframe.swift; sourceTree = "<group>"; };
 		370E569D27C666590023CF02 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		373207F627C91B71000FFFC6 /* SequenceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExtensions.swift; sourceTree = "<group>"; };
 		3741A10627C77B1D00C0DD6B /* Hind-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-Bold.ttf"; sourceTree = "<group>"; };
 		3741A10727C77B1D00C0DD6B /* Hind-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-Regular.ttf"; sourceTree = "<group>"; };
 		3741A10827C77B1D00C0DD6B /* Hind-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hind-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				378BA64127BFDA4400DEED0E /* String */,
 				378BA63927BFD84400DEED0E /* Color */,
 				1BB2479323E6EE6E00EBFD39 /* Foundation */,
+				373207F627C91B71000FFFC6 /* SequenceExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -712,6 +715,7 @@
 				378BA63B27BFD85B00DEED0E /* ColorExtensions.swift in Sources */,
 				3742E98227C5129A003A110E /* VerificationCodeTextField.swift in Sources */,
 				1B0BFB3C23362A000054E28A /* InteractorInterface.swift in Sources */,
+				373207F727C91B71000FFFC6 /* SequenceExtensions.swift in Sources */,
 				3786EC9627C38A7300250F0C /* VerificationInterfaces.swift in Sources */,
 				370E569A27C64E790023CF02 /* LoginViewController.swift in Sources */,
 				370E569827C64E790023CF02 /* LoginInterfaces.swift in Sources */,

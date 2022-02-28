@@ -13,11 +13,11 @@ import UIKit
 final class VerificationViewController: UIViewController {
     
     private var timer: Timer?
-    private var seconds = 5
+    private var seconds = 60
     
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
-    private var verificationCodeTextfield: VerificationCodeTextField!
+    private var verificationCodeTextfield: LoginTextField!
     private var nextButton: Button!
     private var stackView: UIStackView!
     private var incorrectPasswordLabel: UILabel!
@@ -26,7 +26,7 @@ final class VerificationViewController: UIViewController {
     private var attributeString = NSMutableAttributedString()
     private var changePhoneNumberButton: UIButton!
     private var phoneNumber: String?
-    
+    private var password: String?
     // MARK: - Public properties -
     var presenter: VerificationPresenterInterface!
     
@@ -89,21 +89,19 @@ final class VerificationViewController: UIViewController {
     }
     
     private func configurePinCodeTextfield() {
-        verificationCodeTextfield = VerificationCodeTextField()
-        verificationCodeTextfield.keyboardType = .numberPad
+        verificationCodeTextfield = LoginTextField()
         verificationCodeTextfield.textColor = .black
         verificationCodeTextfield.font = UIFont(name: "Hind-SemiBold", size: 20)
         verificationCodeTextfield.customDelegate = self
-        verificationCodeTextfield.delegate = self
-        verificationCodeTextfield.addTarget(self, action: #selector(textFieldEdidtingDidChange(_ :)), for: UIControl.Event.editingChanged)
+        verificationCodeTextfield.autocorrectionType = .no
+        verificationCodeTextfield.autocapitalizationType = .none
         
         let attributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
-            NSAttributedString.Key.foregroundColor: Colors.blackLabel,
-            NSAttributedString.Key.kern: CGFloat(5.0)
+            NSAttributedString.Key.foregroundColor: Colors.placeholder
         ]
-        let attributedPlaceholder = NSMutableAttributedString(string: "- - - - - -", attributes: attributes)
-        attributedPlaceholder.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedPlaceholder.length))
+        
+        let attributedPlaceholder = NSMutableAttributedString(string: "VerificationViewController.TextField.Placeholder".localized, attributes: attributes)
         verificationCodeTextfield.attributedPlaceholder = attributedPlaceholder
         
         view.addSubview(verificationCodeTextfield)
@@ -114,12 +112,6 @@ final class VerificationViewController: UIViewController {
             make.leading.equalToSuperview().offset(15)
             make.height.equalTo(50)
         }
-    }
-    
-    @objc func textFieldEdidtingDidChange(_ textField :UITextField) {
-        let attributedString = NSMutableAttributedString(string: verificationCodeTextfield.text ?? "")
-        attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(8.0), range: NSRange(location: 0, length: attributedString.length))
-        verificationCodeTextfield.attributedText = attributedString
     }
     
     private func configureNextButton() {
@@ -139,14 +131,31 @@ final class VerificationViewController: UIViewController {
         }
     }
     
+    private func saveData() {
+        do {
+            try KeychainManager.save(service: "auth.com", account: self.phoneNumber ?? "", password: self.password?.data(using: .utf8) ?? Data())
+        } catch {
+            print(error)
+        }
+    }
+    
     @objc private func nextButtonTapped() {
-        if verificationCodeTextfield.text == "123456" {
+        if verificationCodeTextfield.text?.isEmpty == false {
+            incorrectPasswordLabel.isHidden = true
+            timer?.invalidate()
+            self.saveData()
+            
+            let user = User(phoneNumber: self.phoneNumber ?? "".digits, password: self.password ?? "")
+            let encoder = JSONEncoder()
+            if let encodedUser = try? encoder.encode(user) {
+                UserDefaults.standard.set(encodedUser, forKey: "user")
+            }
+            print("Saved user: \(phoneNumber)")
             presenter.nextButtonTapped(phoneNumber: self.phoneNumber ?? "")
             UserDefaults.standard.setValue(true, forKey: "homeWireFrameShown")
-            print("Code was right")
+            print("Registration was unsuccessful")
         } else {
             incorrectPasswordLabel.isHidden = false
-            print("Login was unsuccessful")
         }
     }
     
@@ -198,8 +207,12 @@ final class VerificationViewController: UIViewController {
     }
     
     @objc private func startTimer() {
-        print("button tapped")
-        timer = Timer.scheduledTimer(timeInterval: 1, target:self, selector:#selector(configureTimer), userInfo: nil, repeats: true)
+        if seconds == 60 {
+            timer = Timer.scheduledTimer(timeInterval: 1, target:self, selector:#selector(configureTimer), userInfo: nil, repeats: true)
+            sendAgainButton.isEnabled = false
+        } else {
+            return
+        }
     }
     
     @objc private func configureTimer() {
@@ -210,11 +223,10 @@ final class VerificationViewController: UIViewController {
         if seconds == 0 {
             timer?.invalidate()
             sendAgainButton.bind(title: "VerificationViewController.CodeResend".localized, subTitle:"", buttonType: seconds == 0 ? .enabled : .disabled)
-            seconds = 5
+            seconds = 60
         } else {
             sendAgainButton.isEnabled = true
         }
-        print("This is a second ", seconds)
     }
     
     private func configureChangePhoneNumberButton() {
@@ -267,13 +279,6 @@ extension VerificationViewController: VerificationViewInterface {
     func pushPhoneNumber(phoneNumber: String) {
         self.phoneNumber = phoneNumber
         
-        let user = User(phoneNumber: phoneNumber, password: "")
-
-        let encoder = JSONEncoder()
-        if let encodedUser = try? encoder.encode(user) {
-            UserDefaults.standard.set(encodedUser, forKey: "user")
-        }
-        
         let numberAttributes = [
             NSAttributedString.Key.font: UIFont(name: "Hind-Bold", size: 15),
             NSAttributedString.Key.foregroundColor: Colors.blackLabel
@@ -308,21 +313,12 @@ extension VerificationViewController: VerificationViewInterface {
     
 }
 
-extension VerificationViewController: VerificationCodeTextfieldDelegate {
+extension VerificationViewController: LoginTextFieldDelegate {
     func textfieldValueDidChange(text: String) {
         let text = verificationCodeTextfield.text ?? ""
         incorrectPasswordLabel.isHidden = true
         presenter.inputChanged(text: text)
-        print(text)
-    }
-}
-
-extension VerificationViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxLength = 6
-        let currentString: NSString = (textField.text ?? "") as NSString
-        let newString: NSString =
-        currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= maxLength
+        self.password = text
+//        print(text)
     }
 }

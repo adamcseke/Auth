@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.bool(forKey: "homeWireFrameShown") {
             setRoot(wireframe: LoginWireframe(phoneNumber: ""))
         } else {
-            setRoot(wireframe: HomeWireframe(country: ""))
+            setRoot(wireframe: HomeWireframe(country: "", flag: ""))
         }
         return true
     }

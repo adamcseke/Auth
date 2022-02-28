@@ -18,6 +18,7 @@ final class CountryPickerPresenter {
     private let interactor: CountryPickerInteractorInterface
     private let wireframe: CountryPickerWireframeInterface
     
+    private var flag: String = ""
     private var country: String = ""
 
     // MARK: - Lifecycle -
@@ -40,8 +41,8 @@ final class CountryPickerPresenter {
 // MARK: - Extensions -
 
 extension CountryPickerPresenter: CountryPickerPresenterInterface {
-    func didSelectCountry(country: String) {
-        wireframe.dismissCountryPicker(country: country)
+    func didSelectCountry(country: String, flag: String) {
+        wireframe.dismissCountryPicker(country: country, flag: flag)
     }
 
 }

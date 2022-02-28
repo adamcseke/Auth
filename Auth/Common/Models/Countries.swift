@@ -9,7 +9,8 @@
 import Foundation
 
 struct CountryCodes {
-    static let countries: [String : String]  = ["AF":"93","AL":"355","DZ":"213","US":"1",
+    
+    static let countries = ["AF":"93","AL":"355","DZ":"213","US":"1",
                                                 "AD":"376","AO":"244","AI":"1","AG":"1","AR":"54",
                                                 "AM":"374","AW":"297","AU":"61","AT":"43","AZ":"994",
                                                 "BS":"1","BH":"973","BD":"880","BB":"1","BY":"375",
@@ -53,7 +54,7 @@ struct CountryCodes {
                                                 "RE":"262","RU":"7","BL":"590","SH":"290","KN":"1",
                                                 "LC":"1","MF":"590","PM":"508","VC":"1","ST":"239",
                                                 "SO":"252","SJ":"47","SY":"963","TW":"886","TZ":"255",
-                                                "TL":"670","VE":"58","VN":"84","VG":"284","VI":"340"]
+                                                "TL":"670","VE":"58","VN":"84","VG":"284","VI":"340"].sorted(\.key, by: >)
     
     static func countryName(countryCode: String) -> String? {
         let current = Locale(identifier: "en_US")

@@ -14,12 +14,12 @@ final class HomeWireframe: BaseWireframe {
 
     // MARK: - Module setup -
 
-    init(country: String) {
+    init(country: String, flag: String) {
         let moduleViewController = HomeViewController()
         super.init(viewController: moduleViewController)
         
         let interactor = HomeInteractor()
-        let presenter = HomePresenter(view: moduleViewController, interactor: interactor, wireframe: self, country: country)
+        let presenter = HomePresenter(view: moduleViewController, interactor: interactor, wireframe: self, country: country, flag: flag)
         moduleViewController.presenter = presenter
     }
 
@@ -28,10 +28,13 @@ final class HomeWireframe: BaseWireframe {
 // MARK: - Extensions -
 
 extension HomeWireframe: HomeWireframeInterface {
+    func goToLogin() {
+        let loginVC = LoginWireframe(phoneNumber: "")
+        navigationController?.pushWireframe(loginVC)
+    }
     
     func goToCountryPicker(delegate: HomeDelegate?) {
         let counrtyPickerWireFrame = CountryPickerWireframe(delegate: delegate)
-        
         navigationController?.presentWireframe(counrtyPickerWireFrame)
     }
     
