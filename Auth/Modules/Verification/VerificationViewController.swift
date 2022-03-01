@@ -13,7 +13,7 @@ import UIKit
 final class VerificationViewController: UIViewController {
     
     private var timer: Timer?
-    private var seconds = 60
+    private var seconds = 5
     
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
@@ -35,7 +35,6 @@ final class VerificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        
         presenter.viewDidLoad()
     }
     
@@ -95,6 +94,7 @@ final class VerificationViewController: UIViewController {
         verificationCodeTextfield.customDelegate = self
         verificationCodeTextfield.autocorrectionType = .no
         verificationCodeTextfield.autocapitalizationType = .none
+        verificationCodeTextfield.keyboardType = .default
         
         let attributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
@@ -130,10 +130,11 @@ final class VerificationViewController: UIViewController {
             make.height.equalTo(50)
         }
     }
-    
+
     private func saveData() {
         do {
-            try KeychainManager.save(service: "auth.com", account: self.phoneNumber ?? "", password: self.password?.data(using: .utf8) ?? Data())
+            try KeychainManager.shared.save(account: self.phoneNumber ?? "",
+                                     password: self.password?.data(using: .utf8) ?? Data())
         } catch {
             print(error)
         }
@@ -143,19 +144,15 @@ final class VerificationViewController: UIViewController {
         if verificationCodeTextfield.text?.isEmpty == false {
             incorrectPasswordLabel.isHidden = true
             timer?.invalidate()
+
             self.saveData()
-            
-            let user = User(phoneNumber: self.phoneNumber ?? "".digits, password: self.password ?? "")
-            let encoder = JSONEncoder()
-            if let encodedUser = try? encoder.encode(user) {
-                UserDefaults.standard.set(encodedUser, forKey: "user")
-            }
-            print("Saved user: \(phoneNumber)")
+
             presenter.nextButtonTapped(phoneNumber: self.phoneNumber ?? "")
             UserDefaults.standard.setValue(true, forKey: "homeWireFrameShown")
-            print("Registration was unsuccessful")
+            print("Registration was successful")
         } else {
             incorrectPasswordLabel.isHidden = false
+            print("Registration was unsuccessful")
         }
     }
     
@@ -207,7 +204,7 @@ final class VerificationViewController: UIViewController {
     }
     
     @objc private func startTimer() {
-        if seconds == 60 {
+        if seconds == 5 {
             timer = Timer.scheduledTimer(timeInterval: 1, target:self, selector:#selector(configureTimer), userInfo: nil, repeats: true)
             sendAgainButton.isEnabled = false
         } else {
@@ -217,13 +214,12 @@ final class VerificationViewController: UIViewController {
     
     @objc private func configureTimer() {
         seconds -= 1
-        
         sendAgainButton.bind(title: "VerificationViewController.CodeResend".localized, subTitle:" (\(seconds)s)", buttonType: seconds == 0 ? .enabled : .disabled)
         
         if seconds == 0 {
             timer?.invalidate()
             sendAgainButton.bind(title: "VerificationViewController.CodeResend".localized, subTitle:"", buttonType: seconds == 0 ? .enabled : .disabled)
-            seconds = 60
+            seconds = 5
         } else {
             sendAgainButton.isEnabled = true
         }
@@ -234,7 +230,7 @@ final class VerificationViewController: UIViewController {
         changePhoneNumberButton.addTarget(self, action: #selector(changePhoneNumberButtonTapped), for: .touchUpInside)
         
         let attributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16) ?? UIFont(),
             NSAttributedString.Key.foregroundColor: UIColor.blue,
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
         ]
@@ -319,6 +315,15 @@ extension VerificationViewController: LoginTextFieldDelegate {
         incorrectPasswordLabel.isHidden = true
         presenter.inputChanged(text: text)
         self.password = text
-//        print(text)
+    }
+}
+
+extension VerificationViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 12
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
     }
 }

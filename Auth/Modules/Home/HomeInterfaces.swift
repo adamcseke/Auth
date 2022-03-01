@@ -26,6 +26,7 @@ protocol HomePresenterInterface: PresenterInterface {
     func goToLogin()
     func countryPickerButtonTapped()
     func inputChanged(text: String)
+    func nextButtonTapped()
 }
 
 protocol HomeInteractorInterface: InteractorInterface {

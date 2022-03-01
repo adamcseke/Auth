@@ -28,4 +28,5 @@
 "LoginViewController.IncorrectPassword" = "*Incorrect password, please type again";
 "LoginViewController.ButtonTitle" = "LOGIN";
 "LoginViewController.AlertViewController.Fingerprint.Title" = "Oops";
-"LoginViewController.AlertViewController.Fingerprint.Description" = "Authentication could not start because the user has not enrolled in biometric authentication.";
+"LoginViewController.AlertViewController.BiometricAuth.Description.NotEnrolled" = "Authentication could not start because the user has not enrolled in biometric authentication.";
+

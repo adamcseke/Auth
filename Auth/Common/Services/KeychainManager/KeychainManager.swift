@@ -11,18 +11,23 @@ import UIKit
 
 class KeychainManager {
     
+    private let service = "auth.com"
+    
+    static let shared = KeychainManager()
+    private init() {}
+    
     enum KeychainError: Error {
         case duplicateEntry
         case unknown(OSStatus)
     }
     
-    static func save(service: String, account: String, password: Data) throws {
+    func save(account: String, password: Data) throws {
         
         let query: [String: AnyObject] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service as AnyObject,
             kSecAttrAccount as String: account as AnyObject,
-            kSecValueData as String: password as AnyObject,
+            kSecValueData as String: password as AnyObject
         ]
         
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -38,20 +43,22 @@ class KeychainManager {
         print("saved")
     }
     
-    static func get(service: String, account: String) -> Data? {
+    func get(account: String) -> Data? {
         
         let query: [String: AnyObject] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service as AnyObject,
             kSecAttrAccount as String: account as AnyObject,
             kSecReturnData as String: kCFBooleanTrue,
-            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecMatchLimit as String: kSecMatchLimitOne
         ]
         
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
         
         print("Read status: \(status)")
+        
+        if status == errSecItemNotFound { print("HELLOU nincs meg ") }
         
         return result as? Data
     }

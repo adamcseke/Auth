@@ -91,6 +91,7 @@ final class HomeViewController: BaseViewController {
         phoneNumberTextField.placeholder = "HomeViewController.TextField.Registration".localized
         phoneNumberTextField.keyboardType = .numberPad
         phoneNumberTextField.backgroundColor = .white
+        phoneNumberTextField.autocorrectionType = .no
         phoneNumberTextField.layer.cornerRadius = 11
         
         view.addSubview(phoneNumberTextField)
@@ -106,10 +107,6 @@ final class HomeViewController: BaseViewController {
     private func configureCountryPickerButton() {
         countryPickerButton = UIButton(type: .custom)
         countryPickerButton.addTarget(self, action: #selector(didTapCountryPickerButton), for: .touchUpInside)
-        
-//        let countryFlag = NSTextAttachment()
-//        countryFlag.image = UIImage(systemName: "countryFlag")
-//        let countryFlagImageString = NSMutableAttributedString(attachment: countryFlag)
         
         countryPickerButton.setTitle("📍", for: .normal)
         
@@ -156,17 +153,14 @@ final class HomeViewController: BaseViewController {
     }
     
     @objc private func nextButtonTapped() {
-        if let savedUserData = UserDefaults.standard.object(forKey: "user") as? Data {
-            let decoder = JSONDecoder()
-            if let savedUser = try? decoder.decode(User.self, from: savedUserData) {
-                self.savedPhoneNumber = savedUser.phoneNumber
-            }
+        
+        let user = UserInfo(phoneNumber: self.phoneNumber ?? "")
+        let encoder = JSONEncoder()
+        if let encodedUser = try? encoder.encode(user) {
+            UserDefaults.standard.set(encodedUser, forKey: "user")
         }
-        if self.phoneNumber == self.savedPhoneNumber {
-            presenter.goToLogin()
-        } else {
-            presenter.goToVerification()
-        }
+        
+        presenter.nextButtonTapped()
     }
 }
 
@@ -179,8 +173,6 @@ extension HomeViewController: HomeViewInterface {
         countryCount = country.count
         let selectedCountryFlag = CountryCodes.flag(country: flag).decodeEmoji
         countryPickerButton.setTitle(selectedCountryFlag, for: .normal)
-        print(country)
-        print(countryFlag.decodeEmoji)
     }
     
     func setButton(enable: Bool) {
@@ -222,17 +214,15 @@ extension HomeViewController: UITextFieldDelegate {
         var result = ""
         var index = numbers.startIndex // numbers iterator
         
-        // iterate over the mask characters until the iterator of numbers ends
         for ch in mask where index < numbers.endIndex {
             if ch == "X" {
-                // mask requires a number in this place, so take the next one
-                result.append(numbers[index])
                 
-                // move numbers iterator to the next index
+                result.append(numbers[index])
+
                 index = numbers.index(after: index)
                 
             } else {
-                result.append(ch) // just append a mask character
+                result.append(ch)
             }
         }
         return result
@@ -242,16 +232,6 @@ extension HomeViewController: UITextFieldDelegate {
         guard let text = textField.text else { return false }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
         
-//        if self.countryCount == 0 {
-//            textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
-//        } else if self.countryCount == 2 {
-//            textField.text = format(with: "+X (XX) XXX-XXXX", phone: newString)
-//        } else if self.countryCount == 3 {
-//            textField.text = format(with: "+XX (XX) XXX-XXXX", phone: newString)
-//        } else if self.countryCount == 4 {
-//            textField.text = format(with: "+XXX (XX) XXX-XXXX", phone: newString)
-//        }
-        
         textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
         
         presenter.inputChanged(text: textField.text ?? "")
@@ -259,6 +239,7 @@ extension HomeViewController: UITextFieldDelegate {
         if phoneNumberValidator == true {
             self.phoneNumber = textField.text ?? ""
         }
+        
         return false
     }
 }

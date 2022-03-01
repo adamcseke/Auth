@@ -55,7 +55,6 @@
 		3741A11227C7857F00C0DD6B /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11127C7857F00C0DD6B /* Devices.swift */; };
 		3741A11427C78AB200C0DD6B /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11327C78AB200C0DD6B /* LoginTextField.swift */; };
 		3741A11727C794DA00C0DD6B /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3741A11527C794A400C0DD6B /* LocalAuthentication.framework */; };
-		3741A11C27C7AD0600C0DD6B /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11B27C7AD0600C0DD6B /* UserInfo.swift */; };
 		3741A11F27C7D22200C0DD6B /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3741A11E27C7D22200C0DD6B /* KeychainManager.swift */; };
 		3742E98027C4E7CC003A110E /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3742E97F27C4E7CC003A110E /* Countries.swift */; };
 		3742E98227C5129A003A110E /* VerificationCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3742E98127C5129A003A110E /* VerificationCodeTextField.swift */; };
@@ -75,6 +74,7 @@
 		378BA64327BFDA5B00DEED0E /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BA64227BFDA5B00DEED0E /* StringExtensions.swift */; };
 		378BA64727BFDAD600DEED0E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 378BA64927BFDAD600DEED0E /* Localizable.strings */; };
 		378BA64B27BFDE8000DEED0E /* PhoneNumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378BA64A27BFDE8000DEED0E /* PhoneNumberTextField.swift */; };
+		37B4777527CCE5E900152A05 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B4777427CCE5E900152A05 /* UserInfo.swift */; };
 		37BF307827BFE1540059535C /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BF307727BFE1540059535C /* ViewControllerExtensions.swift */; };
 		37DF7C3927C522F800729C23 /* AttributedCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DF7C3827C522F800729C23 /* AttributedCustomButton.swift */; };
 		43059EDD3632E03E9C26E3F1 /* Pods_Auth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4E5C14F4E592CE52F69CA8 /* Pods_Auth.framework */; };
@@ -133,7 +133,6 @@
 		3741A11127C7857F00C0DD6B /* Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
 		3741A11327C78AB200C0DD6B /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		3741A11527C794A400C0DD6B /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
-		3741A11B27C7AD0600C0DD6B /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		3741A11E27C7D22200C0DD6B /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		3742E97F27C4E7CC003A110E /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
 		3742E98127C5129A003A110E /* VerificationCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeTextField.swift; sourceTree = "<group>"; };
@@ -153,6 +152,7 @@
 		378BA64227BFDA5B00DEED0E /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		378BA64827BFDAD600DEED0E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		378BA64A27BFDE8000DEED0E /* PhoneNumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberTextField.swift; sourceTree = "<group>"; };
+		37B4777427CCE5E900152A05 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		37BF307727BFE1540059535C /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
 		37DF7C3827C522F800729C23 /* AttributedCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedCustomButton.swift; sourceTree = "<group>"; };
 		4EF7DC8171F9897A5B5FA456 /* Pods-TemplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateTests.release.xcconfig"; path = "Target Support Files/Pods-TemplateTests/Pods-TemplateTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -324,6 +324,7 @@
 			children = (
 				3741A11D27C7D21700C0DD6B /* KeychainManager */,
 				1B0BFB5F2336328D0054E28A /* RestClient */,
+				37B4777427CCE5E900152A05 /* UserInfo.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -347,12 +348,12 @@
 		1BDD469E23AFFCAE0020AC54 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				3741A10227C775A700C0DD6B /* UILabelExtension */,
+				37B4777627CCF64E00152A05 /* Sequence */,
+				3741A10227C775A700C0DD6B /* UILabel */,
 				37BF307627BFE1460059535C /* ViewController */,
 				378BA64127BFDA4400DEED0E /* String */,
 				378BA63927BFD84400DEED0E /* Color */,
 				1BB2479323E6EE6E00EBFD39 /* Foundation */,
-				373207F627C91B71000FFFC6 /* SequenceExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -362,7 +363,6 @@
 			children = (
 				1BB2479123E6ED0500EBFD39 /* APIError.swift */,
 				3742E97F27C4E7CC003A110E /* Countries.swift */,
-				3741A11B27C7AD0600C0DD6B /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -413,11 +413,11 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		3741A10227C775A700C0DD6B /* UILabelExtension */ = {
+		3741A10227C775A700C0DD6B /* UILabel */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = UILabelExtension;
+			path = UILabel;
 			sourceTree = "<group>";
 		};
 		3741A10527C77B0000C0DD6B /* Fonts */ = {
@@ -512,6 +512,14 @@
 				378BA64927BFDAD600DEED0E /* Localizable.strings */,
 			);
 			path = StringLocalization;
+			sourceTree = "<group>";
+		};
+		37B4777627CCF64E00152A05 /* Sequence */ = {
+			isa = PBXGroup;
+			children = (
+				373207F627C91B71000FFFC6 /* SequenceExtensions.swift */,
+			);
+			path = Sequence;
 			sourceTree = "<group>";
 		};
 		37BF307627BFE1460059535C /* ViewController */ = {
@@ -715,6 +723,7 @@
 				378BA63B27BFD85B00DEED0E /* ColorExtensions.swift in Sources */,
 				3742E98227C5129A003A110E /* VerificationCodeTextField.swift in Sources */,
 				1B0BFB3C23362A000054E28A /* InteractorInterface.swift in Sources */,
+				37B4777527CCE5E900152A05 /* UserInfo.swift in Sources */,
 				373207F727C91B71000FFFC6 /* SequenceExtensions.swift in Sources */,
 				3786EC9627C38A7300250F0C /* VerificationInterfaces.swift in Sources */,
 				370E569A27C64E790023CF02 /* LoginViewController.swift in Sources */,
@@ -725,7 +734,6 @@
 				378BA63427BFD15700DEED0E /* HomeInterfaces.swift in Sources */,
 				378BA63527BFD15700DEED0E /* HomePresenter.swift in Sources */,
 				370E569C27C64E790023CF02 /* LoginWireframe.swift in Sources */,
-				3741A11C27C7AD0600C0DD6B /* UserInfo.swift in Sources */,
 				370D9DCA27C4CEB600E22C87 /* CountryPickerPresenter.swift in Sources */,
 				1B0BFB4723362B740054E28A /* BaseTabbarProtocolController.swift in Sources */,
 				378BA63827BFD15800DEED0E /* HomeWireframe.swift in Sources */,

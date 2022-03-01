@@ -19,7 +19,6 @@ final class HomePresenter {
     private let wireframe: HomeWireframeInterface
     
     private var country: String = ""
-    private var phoneNumber: String = ""
     private var currentInput: String = ""
     private var flag: String = ""
 
@@ -64,6 +63,14 @@ extension HomePresenter: HomePresenterInterface {
     
     func countryPickerButtonTapped() {
         wireframe.goToCountryPicker(delegate: self)
+    }
+    
+    func nextButtonTapped() {
+        if let stored = KeychainManager.shared.get(account: self.currentInput) {
+            goToLogin()
+        } else {
+            goToVerification()
+        }
     }
 }
 

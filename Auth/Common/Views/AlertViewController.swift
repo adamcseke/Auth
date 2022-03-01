@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import KeychainAccess
 
 class AlertViewController: UIViewController {
     
@@ -77,7 +76,6 @@ class AlertViewController: UIViewController {
     
     private func configureImageView() {
         imageView = UIImageView()
-//        imageView.image = UIImage(systemName: "touchid")
         imageView.image = alertImage
         imageView.image?.withTintColor(Colors.button)
         imageView.layer.masksToBounds = true
