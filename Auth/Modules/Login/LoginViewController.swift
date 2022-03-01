@@ -21,7 +21,6 @@ final class LoginViewController: UIViewController {
         }
     }
     private var password: String = ""
-    private var errorCode: Int?
     
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
@@ -32,7 +31,6 @@ final class LoginViewController: UIViewController {
     private var incorrectPasswordLabel: UILabel!
     private var forgotPasswordButton: UIButton!
     private var signOutButton: UIButton!
-    
     private var changePhoneNumberButton: UIButton!
     
     // MARK: - Public properties -
@@ -58,15 +56,19 @@ final class LoginViewController: UIViewController {
         configureIncorrectPassword()
         configureForgotPasswordButton()
         configureSignOutButton()
-        self.hideKeyboardWhenTappedAround()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+        configurePushUpView()
         getData()
         configureChangePhoneNumberButton()
     }
     
     private func configureViewController() {
         view.backgroundColor = Colors.background
+    }
+    
+    private func configurePushUpView() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func configureTitleLabel() {
@@ -121,18 +123,12 @@ final class LoginViewController: UIViewController {
     
     private func configureLoginTextfield() {
         loginTextfield = LoginTextField()
-        loginTextfield.textColor = .black
-        loginTextfield.backgroundColor = .white
-        loginTextfield.layer.cornerRadius = 11
-        loginTextfield.isSecureTextEntry = true
-        loginTextfield.textAlignment = .center
-        loginTextfield.autocapitalizationType = .none
         loginTextfield.customDelegate = self
         loginTextfield.font = UIFont(name: "Hind-Regular", size: 20)
         loginTextfield.addTarget(self, action: #selector(textFieldEdidtingDidChange(_ :)), for: UIControl.Event.editingChanged)
         
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16) ?? UIFont(),
             NSAttributedString.Key.foregroundColor: Colors.placeholder
         ]
         let attributedPlaceholder = NSMutableAttributedString(string: "LoginViewController.TextField.Placeholder".localized, attributes: placeholderAttributes)
@@ -150,13 +146,13 @@ final class LoginViewController: UIViewController {
     
     @objc func textFieldEdidtingDidChange(_ textField :UITextField) {
         let textAttributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont(name: "Hind-Bold", size: 25),
+            NSAttributedString.Key.font: UIFont(name: "Hind-Bold", size: 25) ?? UIFont(),
             NSAttributedString.Key.foregroundColor: Colors.button
         ]
-            let attributedString = NSMutableAttributedString(string: loginTextfield.text ?? "", attributes: textAttributes)
-            attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedString.length))
-            loginTextfield.attributedText = attributedString
-        }
+        let attributedString = NSMutableAttributedString(string: loginTextfield.text ?? "", attributes: textAttributes)
+        attributedString.addAttribute(NSAttributedString.Key.kern, value: CGFloat(5.0), range: NSRange(location: 0, length: attributedString.length))
+        loginTextfield.attributedText = attributedString
+    }
     
     private func configureLoginButton() {
         loginButton = Button()
@@ -226,8 +222,6 @@ final class LoginViewController: UIViewController {
             textString = NSAttributedString(string: "LoginViewController.BiometricButton.FaceID".localized, attributes: attributes)
             faceIdImageString.append(textString)
             biometricButton.setAttributedTitle(faceIdImageString, for: .normal)
-        } else {
-            biometricButton.isHidden = true
         }
         
         biometricButton.addTarget(self, action: #selector(biometricButtonTapped), for: .touchUpInside)
@@ -286,26 +280,26 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func forgotPasswordButtonTapped() {
-        presenter.presentAlert(title: "This function is not available yet.",
-                               description: "Sorry!",
-                               buttonText: "Ok",
+        presenter.presentAlert(title: "LoginViewController.ForgotPasswordButton.Title".localized,
+                               description: "LoginViewController.ForgotPasswordButton.Description".localized,
+                               buttonText: "LoginViewController.ForgotPasswordButton.ButtonTitle".localized,
                                alertImage: UIImage(named: "sad")?.withTintColor(Colors.button) ?? UIImage())
         
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                if self.view.frame.origin.y == 0 {
-                    self.view.frame.origin.y -= keyboardSize.height * 0.30
-                }
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height * 0.30
             }
         }
-        
-        @objc func keyboardWillHide(notification: NSNotification) {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y = 0
-            }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
         }
+    }
     
     private func configureSignOutButton() {
         signOutButton = UIButton()
@@ -316,13 +310,13 @@ final class LoginViewController: UIViewController {
             NSAttributedString.Key.font: UIFont(name: "Hind-Regular", size: 16) ?? UIFont(),
             NSAttributedString.Key.foregroundColor: UIColor.blue,
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-          ]
+        ]
         
         signOutButton.tintColor = Colors.button
         let attributeString = NSMutableAttributedString(
-              string: "LoginViewController.SignOut".localized,
-              attributes: attributes
-            )
+            string: "LoginViewController.SignOut".localized,
+            attributes: attributes
+        )
         signOutButton.backgroundColor = .clear
         signOutButton.setAttributedTitle(attributeString, for: .normal)
         stackView.addArrangedSubview(signOutButton)
@@ -352,7 +346,6 @@ final class LoginViewController: UIViewController {
         }
         let password = String(decoding: data, as: UTF8.self)
         self.password = password
-        print(password)
         print("Read password: \(password)")
     }
 }
@@ -361,12 +354,12 @@ final class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginViewInterface {
     func setButton(enable: Bool) {
-        if !enable {
-            loginButton.isEnabled = false
-            loginButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
-        } else {
+        if enable {
             loginButton.isEnabled = true
             loginButton.backgroundColor = Colors.button
+        } else {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
         }
     }
     
@@ -410,7 +403,6 @@ extension LoginViewController: LoginViewInterface {
     @objc private func changePhoneNumberButtonTapped() {
         presenter.signOutButtonTapped()
     }
-    
 }
 
 extension LoginViewController: LoginTextFieldDelegate {
@@ -438,9 +430,9 @@ extension LoginViewController {
             }
         } else {
             self.presenter.presentAlert(title: "LoginViewController.AlertViewController.Fingerprint.Title".localized,
-                                   description: "LoginViewController.AlertViewController.BiometricAuth.Description.NotEnrolled".localized,
-                                   buttonText: "Ok",
-                                   alertImage: UIImage(named: "sad")?.withTintColor(Colors.button) ?? UIImage())
+                                        description: "LoginViewController.AlertViewController.BiometricAuth.Description.NotEnrolled".localized,
+                                        buttonText: "Ok",
+                                        alertImage: UIImage(named: "sad")?.withTintColor(Colors.button) ?? UIImage())
         }
     }
 }

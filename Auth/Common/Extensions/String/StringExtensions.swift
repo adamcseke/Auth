@@ -18,24 +18,12 @@ extension String {
     }
     
     var decodeEmoji: String {
-        let data = self.data(using: .utf8)!
+        let data = self.data(using: .utf8) ?? Data()
         let decoderStr = NSString(data: data, encoding: String.Encoding.nonLossyASCII.rawValue)
         if let str = decoderStr {
             return str as String
         }
         return self
-    }
-    
-    var encodeEmoji: String {
-        if let encodeStr = NSString(cString: self.cString(using: .nonLossyASCII)!, encoding: String.Encoding.utf8.rawValue) {
-            return encodeStr as String
-        }
-        return self
-    }
-    
-    var digits: String {
-        return components(separatedBy: CharacterSet.decimalDigits.inverted)
-            .joined()
     }
     
     var isPhoneNumber: Bool {

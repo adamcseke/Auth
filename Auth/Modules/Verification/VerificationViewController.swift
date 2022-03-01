@@ -48,14 +48,17 @@ final class VerificationViewController: UIViewController {
         configureIncorrectPassword()
         configureSendAgainButton()
         configureChangePhoneNumberButton()
-        self.hideKeyboardWhenTappedAround()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+        hideKeyboardWhenTappedAround()
+        configurePushUpView()
     }
     
     private func configureViewController() {
         view.backgroundColor = Colors.background
+    }
+    
+    private func configurePushUpView() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func configureTitleLabel() {
@@ -89,12 +92,8 @@ final class VerificationViewController: UIViewController {
     
     private func configurePinCodeTextfield() {
         verificationCodeTextfield = LoginTextField()
-        verificationCodeTextfield.textColor = .black
         verificationCodeTextfield.font = UIFont(name: "Hind-SemiBold", size: 20)
         verificationCodeTextfield.customDelegate = self
-        verificationCodeTextfield.autocorrectionType = .no
-        verificationCodeTextfield.autocapitalizationType = .none
-        verificationCodeTextfield.keyboardType = .default
         
         let attributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .bold),
@@ -298,12 +297,12 @@ extension VerificationViewController: VerificationViewInterface {
     }
     
     func setButton(enable: Bool) {
-        if !enable {
-            nextButton.isEnabled = false
-            nextButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
-        } else {
+        if enable {
             nextButton.isEnabled = true
             nextButton.backgroundColor = Colors.button
+        } else {
+            nextButton.isEnabled = false
+            nextButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
         }
     }
     

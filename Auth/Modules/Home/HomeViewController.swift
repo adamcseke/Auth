@@ -17,9 +17,7 @@ final class HomeViewController: BaseViewController {
     private var phoneNumberTextField: PhoneNumberTextField!
     private var nextButton: Button!
     private var countryPickerButton: UIButton!
-    private var downArrowImageView: UIImageView!
     private var country: String?
-    private var countryCount: Int? = 0
     private var countryFlag: String = ""
     
     private var phoneNumber: String?
@@ -36,20 +34,18 @@ final class HomeViewController: BaseViewController {
     }
     
     private func setup() {
-        configureViewController()
         configureTitleLabel()
         configureDescriptionLabel()
         configurePhoneNumberTextfield()
         configureCountryPickerButton()
-        configureDownArrowImageView()
         configureButton()
-        self.hideKeyboardWhenTappedAround()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+        configurePushUpView()
     }
     
-    private func configureViewController() {
-        view.backgroundColor = Colors.background
+    private func configurePushUpView() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func configureTitleLabel() {
@@ -85,21 +81,15 @@ final class HomeViewController: BaseViewController {
     
     private func configurePhoneNumberTextfield() {
         phoneNumberTextField = PhoneNumberTextField()
-        phoneNumberTextField.customDelegate = self
         phoneNumberTextField.delegate = self
         phoneNumberTextField.textAlignment = .left
-        phoneNumberTextField.placeholder = "HomeViewController.TextField.Registration".localized
-        phoneNumberTextField.keyboardType = .numberPad
-        phoneNumberTextField.backgroundColor = .white
-        phoneNumberTextField.autocorrectionType = .no
-        phoneNumberTextField.layer.cornerRadius = 11
         
         view.addSubview(phoneNumberTextField)
         
         phoneNumberTextField.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(15)
             make.height.equalTo(50)
         }
     }
@@ -107,32 +97,33 @@ final class HomeViewController: BaseViewController {
     private func configureCountryPickerButton() {
         countryPickerButton = UIButton(type: .custom)
         countryPickerButton.addTarget(self, action: #selector(didTapCountryPickerButton), for: .touchUpInside)
+        countryPickerButton.titleLabel?.font = .systemFont(ofSize: 20)
         
-        countryPickerButton.setTitle("📍", for: .normal)
+        let downArrow = NSTextAttachment()
+        downArrow.image = UIImage(systemName: "chevron.down")?.withTintColor(Colors.blackLabel)
+        
+        var textString = NSAttributedString()
+        textString = NSAttributedString(string: "📍")
+        
+        let imageString = NSAttributedString(attachment: downArrow)
+        
+        let combination = NSMutableAttributedString()
+        combination.append(textString)
+        combination.append(imageString)
+        
+        countryPickerButton.setAttributedTitle(combination, for: .normal)
         
         view.addSubview(countryPickerButton)
         
         countryPickerButton.snp.makeConstraints { make in
             make.centerY.equalTo(phoneNumberTextField.snp.centerY)
-            make.leading.equalTo(phoneNumberTextField.snp.leading).offset(16)
-            make.height.width.equalTo(28)
+            make.leading.equalTo(phoneNumberTextField.snp.leading).offset(8)
+            make.height.width.equalTo(50)
         }
     }
     
     @objc private func didTapCountryPickerButton() {
         presenter.countryPickerButtonTapped()
-    }
-    
-    private func configureDownArrowImageView() {
-        downArrowImageView = UIImageView()
-        downArrowImageView.image = UIImage(systemName: "chevron.down")
-        downArrowImageView.tintColor = Colors.downArrow
-        view.addSubview(downArrowImageView)
-        
-        downArrowImageView.snp.makeConstraints { make in
-            make.centerY.equalTo(phoneNumberTextField.snp.centerY)
-            make.leading.equalTo(countryPickerButton.snp.trailing).offset(4)
-        }
     }
     
     private func configureButton() {
@@ -159,7 +150,6 @@ final class HomeViewController: BaseViewController {
         if let encodedUser = try? encoder.encode(user) {
             UserDefaults.standard.set(encodedUser, forKey: "user")
         }
-        
         presenter.nextButtonTapped()
     }
 }
@@ -170,18 +160,18 @@ extension HomeViewController: HomeViewInterface {
     func setCountry(country: String, flag: String) {
         phoneNumberTextField.text?.removeAll()
         phoneNumberTextField.text?.append(country)
-        countryCount = country.count
         let selectedCountryFlag = CountryCodes.flag(country: flag).decodeEmoji
         countryPickerButton.setTitle(selectedCountryFlag, for: .normal)
+        nextButton.isEnabled = false
     }
     
     func setButton(enable: Bool) {
-        if !enable {
-            nextButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
-            nextButton.isEnabled = false
-        } else {
-            nextButton.backgroundColor = Colors.button
+        if enable {
             nextButton.isEnabled = true
+            nextButton.backgroundColor = Colors.button
+        } else {
+            nextButton.isEnabled = false
+            nextButton.backgroundColor = Colors.button.withAlphaComponent(0.5)
         }
     }
     
@@ -198,13 +188,6 @@ extension HomeViewController: HomeViewInterface {
             self.view.frame.origin.y = 0
         }
     }
-    
-}
-
-extension HomeViewController: PhoneNumberTextfieldDelegate {
-    
-    func textfieldValueDidChange(text: String) {
-    }
 }
 
 extension HomeViewController: UITextFieldDelegate {
@@ -214,15 +197,15 @@ extension HomeViewController: UITextFieldDelegate {
         var result = ""
         var index = numbers.startIndex // numbers iterator
         
-        for ch in mask where index < numbers.endIndex {
-            if ch == "X" {
+        for character in mask where index < numbers.endIndex {
+            if character == "X" {
                 
                 result.append(numbers[index])
 
                 index = numbers.index(after: index)
                 
             } else {
-                result.append(ch)
+                result.append(character)
             }
         }
         return result
@@ -231,15 +214,12 @@ extension HomeViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
-        
-        textField.text = format(with: "+XXXXXXXXXXXXXXXX", phone: newString)
-        
+        textField.text = format(with: "+XXXXXXXXXXXXXXX", phone: newString)
         presenter.inputChanged(text: textField.text ?? "")
         let phoneNumberValidator = textField.text?.isPhoneNumber
         if phoneNumberValidator == true {
             self.phoneNumber = textField.text ?? ""
         }
-        
         return false
     }
 }

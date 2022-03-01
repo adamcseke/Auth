@@ -29,6 +29,7 @@ class Button: UIControl {
     
     private func configureButton() {
         layer.cornerRadius = 11
+        isUserInteractionEnabled = true
         isEnabled = false
     }
     
@@ -37,6 +38,7 @@ class Button: UIControl {
         buttonLabel.textColor = .white
         buttonLabel.font = UIFont(name: "Hind-Bold", size: 20)
         buttonLabel.textAlignment = .center
+        buttonLabel.isUserInteractionEnabled = true
         
         addSubview(buttonLabel)
         

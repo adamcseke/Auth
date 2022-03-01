@@ -12,7 +12,6 @@ extension UIDevice {
     
     enum Devices {
         static var iPhoneSE1stGen: Bool { UIScreen.main.nativeBounds.height == 1136 }
-        static var iPad: Bool { UIDevice().userInterfaceIdiom == .pad }
     }
     
     enum ScreenType: String {

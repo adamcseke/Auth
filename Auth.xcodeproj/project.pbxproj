@@ -324,7 +324,6 @@
 			children = (
 				3741A11D27C7D21700C0DD6B /* KeychainManager */,
 				1B0BFB5F2336328D0054E28A /* RestClient */,
-				37B4777427CCE5E900152A05 /* UserInfo.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -361,6 +360,7 @@
 		1BDD469F23AFFCB40020AC54 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				37B4777427CCE5E900152A05 /* UserInfo.swift */,
 				1BB2479123E6ED0500EBFD39 /* APIError.swift */,
 				3742E97F27C4E7CC003A110E /* Countries.swift */,
 			);
@@ -371,11 +371,12 @@
 			isa = PBXGroup;
 			children = (
 				370D9DCE27C4CF1D00E22C87 /* Cells */,
+				370E569D27C666590023CF02 /* AlertViewController.swift */,
+				37DF7C3827C522F800729C23 /* AttributedCustomButton.swift */,
 				378BA63F27BFD95700DEED0E /* Button.swift */,
+				3741A11327C78AB200C0DD6B /* LoginTextField.swift */,
 				378BA64A27BFDE8000DEED0E /* PhoneNumberTextField.swift */,
 				3742E98127C5129A003A110E /* VerificationCodeTextField.swift */,
-				37DF7C3827C522F800729C23 /* AttributedCustomButton.swift */,
-				370E569D27C666590023CF02 /* AlertViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -396,7 +397,6 @@
 			isa = PBXGroup;
 			children = (
 				370D9DCF27C4CF4500E22C87 /* CountriesTableViewCell.swift */,
-				3741A11327C78AB200C0DD6B /* LoginTextField.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

@@ -35,6 +35,11 @@ class LoginTextField: UITextField {
         backgroundColor = .white
         textAlignment = .center
         font = UIFont(name: "Hind", size: 12)
+        autocorrectionType = .no
+        autocapitalizationType = .none
+        keyboardType = .default
+        textColor = .black
+        isSecureTextEntry = true
         addTarget(self, action: #selector(textfieldValueChanged), for: .editingChanged)
     }
     

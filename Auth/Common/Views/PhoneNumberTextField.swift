@@ -14,7 +14,7 @@ protocol PhoneNumberTextfieldDelegate: AnyObject {
 
 class PhoneNumberTextField: UITextField {
     
-    var textPadding = UIEdgeInsets( top: 10, left: 70, bottom: 10, right: 20)
+    var textPadding = UIEdgeInsets( top: 10, left: 60, bottom: 10, right: 20)
     
     weak var customDelegate: PhoneNumberTextfieldDelegate?
     
@@ -48,6 +48,11 @@ class PhoneNumberTextField: UITextField {
         textAlignment = .left
         font = UIFont(name: "Hind-Medium", size: 16)
         addTarget(self, action: #selector(textfieldValueChanged), for: .editingChanged)
+        placeholder = "HomeViewController.TextField.Registration".localized
+        keyboardType = .numberPad
+        backgroundColor = .white
+        autocorrectionType = .no
+        layer.cornerRadius = 11
     }
     
     @objc private func textfieldValueChanged() {

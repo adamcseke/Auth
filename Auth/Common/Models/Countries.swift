@@ -56,11 +56,6 @@ struct CountryCodes {
                                                 "SO":"252","SJ":"47","SY":"963","TW":"886","TZ":"255",
                                                 "TL":"670","VE":"58","VN":"84","VG":"284","VI":"340"].sorted(\.key, by: >)
     
-    static func countryName(countryCode: String) -> String? {
-        let current = Locale(identifier: "en_US")
-        return current.localizedString(forRegionCode: countryCode)
-    }
-    
     static func flag(country:String) -> String {
             let base: UInt32 = 127397
             var flag = ""

@@ -23,5 +23,6 @@ class BaseViewController: UIViewController {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
+        view.backgroundColor = Colors.background
     }
 }

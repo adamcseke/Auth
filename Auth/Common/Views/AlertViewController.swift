@@ -10,11 +10,12 @@ import UIKit
 
 class AlertViewController: UIViewController {
     
+    private var transparentView: UIView!
     private var containerView: UIView!
     private var imageView: UIImageView!
     private var titleLabel: UILabel!
     private var messageLabel: UILabel!
-    private var actionButton: Button!
+    private var actionButton: UIButton!
     private var buttonLabel: UILabel!
     
     var alertTitle: String?
@@ -38,17 +39,22 @@ class AlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        initGestureRecognizer()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        if ((touch?.view) != nil) {
-            dismiss(animated: true)
-        }
+    private func initGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
+        transparentView.addGestureRecognizer(tap)
+    }
+    
+    @objc
+    private func backgroundTapped() {
+        dismiss(animated: true)
     }
     
     private func setup() {
         configureViewController()
+        configureTransparentView()
         configureContainerView()
         configureImageView()
         configureTitleLabel()
@@ -59,6 +65,15 @@ class AlertViewController: UIViewController {
     
     private func configureViewController() {
         view.backgroundColor = .black.withAlphaComponent(0.75)
+    }
+    
+    private func configureTransparentView() {
+        transparentView = UIView()
+        
+        view.addSubview(transparentView)
+        transparentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     private func configureContainerView() {
@@ -121,9 +136,10 @@ class AlertViewController: UIViewController {
     }
     
     private func configureActionButton() {
-        actionButton = Button()
+        actionButton = UIButton()
         actionButton.backgroundColor = Colors.button
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
+        actionButton.layer.cornerRadius = 11
         containerView.addSubview(actionButton)
         
         actionButton.snp.makeConstraints { make in
