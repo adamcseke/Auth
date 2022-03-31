@@ -19,6 +19,7 @@ final class HomeViewController: BaseViewController {
     private var countryPickerButton: UIButton!
     private var country: String?
     private var countryFlag: String = ""
+    private var downArrowImageView: UIImageView!
     
     private var phoneNumber: String?
     private var savedPhoneNumber: String?
@@ -38,6 +39,7 @@ final class HomeViewController: BaseViewController {
         configureDescriptionLabel()
         configurePhoneNumberTextfield()
         configureCountryPickerButton()
+        configureDownArrowImageView()
         configureButton()
         hideKeyboardWhenTappedAround()
         configurePushUpView()
@@ -98,33 +100,32 @@ final class HomeViewController: BaseViewController {
         countryPickerButton = UIButton(type: .custom)
         countryPickerButton.addTarget(self, action: #selector(didTapCountryPickerButton), for: .touchUpInside)
         countryPickerButton.titleLabel?.font = .systemFont(ofSize: 20)
-        
-        let downArrow = NSTextAttachment()
-        downArrow.image = UIImage(systemName: "chevron.down")?.withTintColor(Colors.blackLabel)
-        
-        var textString = NSAttributedString()
-        textString = NSAttributedString(string: "📍")
-        
-        let imageString = NSAttributedString(attachment: downArrow)
-        
-        let combination = NSMutableAttributedString()
-        combination.append(textString)
-        combination.append(imageString)
-        
-        countryPickerButton.setAttributedTitle(combination, for: .normal)
+        countryPickerButton.setTitle("📍", for: .normal)
         
         view.addSubview(countryPickerButton)
         
         countryPickerButton.snp.makeConstraints { make in
             make.centerY.equalTo(phoneNumberTextField.snp.centerY)
             make.leading.equalTo(phoneNumberTextField.snp.leading).offset(8)
-            make.height.width.equalTo(50)
+            
         }
     }
     
     @objc private func didTapCountryPickerButton() {
         presenter.countryPickerButtonTapped()
     }
+    
+    private func configureDownArrowImageView() {
+            downArrowImageView = UIImageView()
+            downArrowImageView.image = UIImage(systemName: "chevron.down")
+            downArrowImageView.tintColor = Colors.downArrow
+            view.addSubview(downArrowImageView)
+            
+            downArrowImageView.snp.makeConstraints { make in
+                make.centerY.equalTo(phoneNumberTextField.snp.centerY)
+                make.leading.equalTo(countryPickerButton.snp.trailing)
+            }
+        }
     
     private func configureButton() {
         nextButton = Button()
@@ -144,7 +145,6 @@ final class HomeViewController: BaseViewController {
     }
     
     @objc private func nextButtonTapped() {
-        
         let user = UserInfo(phoneNumber: self.phoneNumber ?? "")
         let encoder = JSONEncoder()
         if let encodedUser = try? encoder.encode(user) {
@@ -162,7 +162,7 @@ extension HomeViewController: HomeViewInterface {
         phoneNumberTextField.text?.append(country)
         let selectedCountryFlag = CountryCodes.flag(country: flag).decodeEmoji
         countryPickerButton.setTitle(selectedCountryFlag, for: .normal)
-        nextButton.isEnabled = false
+        
     }
     
     func setButton(enable: Bool) {

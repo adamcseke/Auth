@@ -13,7 +13,7 @@ class Button: UIControl {
     private var buttonLabel: UILabel!
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
         setup()
     }
     
@@ -38,12 +38,11 @@ class Button: UIControl {
         buttonLabel.textColor = .white
         buttonLabel.font = UIFont(name: "Hind-Bold", size: 20)
         buttonLabel.textAlignment = .center
-        buttonLabel.isUserInteractionEnabled = true
         
         addSubview(buttonLabel)
         
         buttonLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.centerX.centerY.equalToSuperview()
         }
     }
     

@@ -1,12 +1,5 @@
 PODS:
   - Alamofire (5.2.2)
-  - KeychainAccess (4.2.2)
-  - PhoneNumberKit (3.3.3):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
-    - PhoneNumberKit/UIKit (= 3.3.3)
-  - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
-  - PhoneNumberKit/UIKit (3.3.3):
-    - PhoneNumberKit/PhoneNumberKitCore
   - SnapKit (5.0.1)
   - SwifterSwift (5.0.0):
     - SwifterSwift/AppKit (= 5.0.0)
@@ -32,8 +25,6 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - KeychainAccess
-  - PhoneNumberKit
   - SnapKit
   - SwifterSwift
   - SwiftLint
@@ -42,8 +33,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
-    - KeychainAccess
-    - PhoneNumberKit
     - SnapKit
     - SwifterSwift
     - SwiftLint
@@ -51,13 +40,11 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
-  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
-  PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwifterSwift: 96f90594b370802f01647c2b1229c74a84ffafee
   SwiftLint: 5553187048b900c91aa03552807681bb6b027846
   SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
-PODFILE CHECKSUM: 6bb4333debc7bc48b2a5a9922c75b03c4c6200b2
+PODFILE CHECKSUM: 3ec6f9cc6ef49902c463f8f0e2cdcd87340f0288
 
 COCOAPODS: 1.11.2
