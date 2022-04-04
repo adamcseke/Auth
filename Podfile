@@ -7,11 +7,6 @@ target 'Auth' do
   use_frameworks!
 
   # Pods for Template
-  pod 'Alamofire'
-  # pod 'Crashlytics'
-  # pod 'Fabric'
-  # pod 'Firebase/Analytics'
-  # pod 'SDWebImage'
   pod 'SnapKit'
   pod 'SwifterSwift'
   pod 'SwiftLint'

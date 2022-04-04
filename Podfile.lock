@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (5.2.2)
   - SnapKit (5.0.1)
   - SwifterSwift (5.0.0):
     - SwifterSwift/AppKit (= 5.0.0)
@@ -24,7 +23,6 @@ PODS:
   - SwiftyBeaver (1.7.1)
 
 DEPENDENCIES:
-  - Alamofire
   - SnapKit
   - SwifterSwift
   - SwiftLint
@@ -32,19 +30,17 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - SnapKit
     - SwifterSwift
     - SwiftLint
     - SwiftyBeaver
 
 SPEC CHECKSUMS:
-  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwifterSwift: 96f90594b370802f01647c2b1229c74a84ffafee
   SwiftLint: 5553187048b900c91aa03552807681bb6b027846
   SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
-PODFILE CHECKSUM: 3ec6f9cc6ef49902c463f8f0e2cdcd87340f0288
+PODFILE CHECKSUM: 5bde79ae204d1d9f7438e3b0d16c8a2448b7742f
 
 COCOAPODS: 1.11.2
