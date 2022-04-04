@@ -22,7 +22,6 @@ final class HomeViewController: BaseViewController {
     private var downArrowImageView: UIImageView!
     
     private var phoneNumber: String?
-    private var savedPhoneNumber: String?
     
     // MARK: - Public properties -
     var presenter: HomePresenterInterface!
